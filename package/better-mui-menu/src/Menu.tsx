@@ -1,4 +1,4 @@
-import { Menu, MenuProps } from '@mui/material'
+import { Menu, MenuProps, Typography } from '@mui/material'
 
 export type CustomMenuProps = MenuProps & {
   variant?: 'default' | 'dense'
@@ -8,8 +8,6 @@ export function CustomMenu({
   ...props
 }: CustomMenuProps) {
   return (
-    <Menu
-      {...props}
-    />
+    <Typography variant='h1'>Better MUI Menu</Typography>
   )
 }
