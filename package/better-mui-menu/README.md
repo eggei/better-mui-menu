@@ -1,117 +1,97 @@
-# better-mui-menu
+# A Better MUI Material UI Menu
 
-`better-mui-menu` is a tiny component library that supplies a keyboard- and mouse-friendly Material UI menu with unlimited nesting depth. It wraps `@mui/material/Menu` + `Popper` + `Fade` and exposes a simple data-driven API so that a single `items` array can render both leaves and nested submenus.
+A plain Material UI (MUI) `Menu` with added features (keyboard navigation, nested submenus) designed to drop into an existing MUI project, inherit your theme, and improve accessibility.
 
 ## Installation
 
 ```bash
+npm i better-mui-menu
+# or
 npm install better-mui-menu
+# or
+yarn add better-mui-menu
+# or
+pnpm add better-mui-menu
 ```
 
-Because the package delegates rendering to Material UI, make sure the runtime peers are installed as well:
+## Who should use this?
 
-```bash
-npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
-```
+Use this if:
 
-The icons dependency is only required when you pass `startIcon`/`endIcon`, but it is part of the peer dependency list so that consumers can supply Material icons without additional typings setup.
+- You discovered the default MUI menu behavior isn’t meeting your keyboard navigation / accessibility needs.
+- You need nested menus (submenus) and want them to work reliably.
+- You want a menu that “just works” in an MUI app, using your existing theme.
 
 ## Usage
 
-```tsx
-import { useState } from 'react'
-import Button from '@mui/material/Button'
-import Cloud from '@mui/icons-material/Cloud'
-import Save from '@mui/icons-material/Save'
-import Menu, { type MenuItem } from 'better-mui-menu'
+### Minimal example
 
-const menuItems: MenuItem[] = [
-  {
-    id: 'save',
-    label: 'Save',
-    startIcon: Save,
-    onClick: () => {
-      console.log('Save action')
-    },
-  },
-  {
-    type: 'divider',
-  },
-  {
-    label: 'Cloud actions',
-    startIcon: Cloud,
-    items: [
-      {
-        label: 'Upload',
-        onClick: () => console.log('Upload'),
-      },
-      {
-        label: 'Download',
-        onClick: () => console.log('Download'),
-      },
-    ],
-  },
+```tsx
+import Menu, { type MenuItem } from 'better-mui-menu'
+import { useRef, useState } from 'react'
+import { Button } from '@mui/material'
+
+const items: MenuItem[] = [
+  { label: 'Cut', onClick: () => console.log('Cut') },
+  { label: 'Delete', onClick: () => console.log('Delete') },
+  { type: 'divider' },
+  { label: 'Other', items: [{ label: 'Nested', onClick: () => console.log('Nested') }] }, // Nested menu
 ]
 
-export function FileMenu() {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+export default function Example() {
+  const anchorRef = useRef<HTMLButtonElement | null>(null)
+  const [open, setOpen] = useState(false)
 
   return (
     <>
-      <Button variant='contained' onClick={event => setAnchorEl(event.currentTarget)}>
-        Open file menu
+      <Button ref={anchorRef} variant="contained" onClick={() => setOpen(true)}>
+        Open Menu
       </Button>
+
       <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-        items={menuItems}
+        items={items}
+        anchorRef={anchorRef}
+        open={open}
+        onClose={() => setOpen(false)}
       />
     </>
   )
 }
 ```
 
-## API
+## Items shape
 
-### `Menu` props
+```ts
+import type { MenuItem } from 'better-mui-menu'
 
-- `anchorEl: HTMLElement | null` – the anchor element that the root menu positions itself against.
-- `open: boolean` – controlled open state of the root menu.
-- `onClose: () => void` – invoked whenever the menu should close (overlay click, Escape, item selection).
-- `items: MenuItem[]` – the array that drives both leaf menu items and nested branches.
-
-### `MenuItem`
-
-`MenuItem` extends `@mui/material/MenuItemProps` (excluding `children`) so you can pass `disabled`, `dense`, `divider`, etc. The shape adds a few helpers:
-
-- `type?: 'item' | 'divider'` – set `'divider'` to render a `Divider` instead of a `MenuItem`.
-- `id?: string` – optional string used for ARIA attributes; a stable ID is generated automatically when omitted.
-- `label: ReactNode` – the text or custom node shown inside the menu entry.
-- `startIcon?: SvgIconComponent`, `endIcon?: SvgIconComponent` – render Material icons before/after the label using the shared `MenuItemContent` layout.
-- `items?: MenuItem[]` – nested descriptors that render as a submenu via `NestedMenuItem`.
-- `onClick?: MenuItemProps['onClick']` – clicking a leaf entry automatically propagates the handler and closes the entire menu stack.
-
-## Interactions & accessibility
-
-- Nested menus appear in a `Popper` placed `right-start` from the parent trigger and use a shared fade transition (`transitionConfig`).
-- Mouse hover keeps submenus open while the cursor travels between a trigger and its nested popper; moving away closes the submenu.
-- Keyboard navigation supports `ArrowRight`/`Enter`/`Space` to open children, `ArrowLeft` to close, `ArrowUp`/`ArrowDown` to move between entries, and `Escape` to dismiss everything. The component wires the necessary `aria-haspopup`, `aria-controls`, `aria-expanded`, and `aria-labelledby` attributes so that screen readers describe the menu hierarchy.
-
-## Development
-
-All development happens under `package/better-mui-menu`:
-
-- `npm run dev` – runs `tsup --watch` to rebuild `src` into `dist`.
-- `npm run build` – creates production bundles ready for publication.
-- `npm run test` – executes the Jest suite defined in `src/Menu/Menu.test.tsx`.
-
-The root workspace exposes `npm run dev:lib` and `npm run dev:demo` to simultaneously rebuild the library and power the demo app. When you change the menu source, keep `npm run dev` (or `npm run build`) running before refreshing the demo because the Vite app imports the library via its `file:` workspace link.
-
-## Demo
-
-`app/demo` is a Vite + React 19 application that consumes the built package. From the repository root run:
-
-```bash
-npm run dev:demo
+// Each menu item is extended from MUI's MenuItemProps, so you can use any prop from there as well.
+const items: MenuItem[] = [
+  {
+    label: 'Action item',
+    onClick: () => {},
+    'aria-selected': selected ? 'true' : 'false',
+  },
+  {
+    label: 'Item with submenu',
+    items: [
+      { label: 'Nested action', onClick: () => {} },
+      { type: 'divider' },
+      { label: 'Another nested action', onClick: () => {} },
+    ],
+  },
+  { type: 'divider' },
+  {
+    label: 'Disabled item',
+    disabled: true,
+    onClick: () => {},
+  },
+]
 ```
+
+## Why?
+
+I realized that it is a big pain creating a menu with nested menus, and making it keyboard accessible for an accessible product.
+
+I wasn't liking the -very few- existing solutions out there. They were either not handling things properly or too much opinionated interface that I needed to learn about.
+
+So, I decided to share this menu component which has no extra styling, nor so much new interface to learn about. Just drop it in your MUI project, it will pick up your theme, and use it with ease knowing that it is accessible and works well.
