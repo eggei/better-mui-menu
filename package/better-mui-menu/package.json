@@ -8,7 +8,7 @@
   "bugs": {
     "url": "https://github.com/eggei/better-mui-menu/issues"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.cjs",
