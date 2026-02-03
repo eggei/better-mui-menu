@@ -17,12 +17,9 @@ import {
   ContentCut,
   ContentPaste,
   Google,
-  PsychologyAltRounded,
-  PsychologyRounded,
-  Settings,
   Storage,
 } from '@mui/icons-material'
-import { blueGrey, deepPurple, grey } from '@mui/material/colors'
+import { blueGrey } from '@mui/material/colors'
 
 const theme = createTheme()
 
