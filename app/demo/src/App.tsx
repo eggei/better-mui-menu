@@ -1,10 +1,8 @@
-import { Button, Typography } from '@mui/material'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Button } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import MultiLevelMenu, { type MultiLevelMenuItem } from 'better-mui-menu'
 import { useState } from 'react'
-import {Cloud, CloudQueue, ContentCopy, ContentCut, ContentPaste, Google, Settings} from '@mui/icons-material'
+import {Cloud, CloudQueue, ContentCopy, ContentCut, ContentPaste, Google, Settings, Storage} from '@mui/icons-material'
 
 const theme = createTheme({
   palette: {
@@ -95,15 +93,6 @@ function App() {
   };
   return (
     <ThemeProvider theme={theme}>
-      <Typography variant='h4'>Better MUI Menu Demo</Typography>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
             <Button
         id='icon-menu-button'
         aria-controls={anchorEl ? 'icon-menu' : undefined}
