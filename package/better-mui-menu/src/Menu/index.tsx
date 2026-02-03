@@ -1,20 +1,20 @@
-import Menu from '@mui/material/Menu';
+import MuiMenu from '@mui/material/Menu';
 import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
+import MuiMenuItem from '@mui/material/MenuItem';
 import React, { useId } from 'react';
 import { Typography } from '@mui/material';
 import { NestedMenuItem } from './NestedMenuItem';
-import type { MultiLevelMenuItem } from './types';
+import type { MenuItem } from './types';
 import { MenuItemContent, transitionConfig } from './common';
 
 type Props = {
   anchorEl: null | HTMLElement;
   open: boolean;
   onClose: () => void;
-  items: MultiLevelMenuItem[];
+  items: MenuItem[];
 };
 
-export function MultiLevelMenu({ anchorEl, open, onClose, items }: Props) {
+export function Menu({ anchorEl, open, onClose, items }: Props) {
   const generatedMenuId = useId();
 
   const renderedMenuEntries = items.map((item, index) => {
@@ -56,18 +56,18 @@ export function MultiLevelMenu({ anchorEl, open, onClose, items }: Props) {
     };
 
     return (
-      <MenuItem key={itemKey} onClick={handleItemClick} {...menuItemProps}>
+      <MuiMenuItem key={itemKey} onClick={handleItemClick} {...menuItemProps}>
         <MenuItemContent>
           {StartIconComponent ? <StartIconComponent /> : null}
           <Typography sx={{ flex: 1 }}>{displayLabel}</Typography>
           {EndIconComponent ? <EndIconComponent /> : null}
         </MenuItemContent>
-      </MenuItem>
+      </MuiMenuItem>
     );
   });
 
   return (
-    <Menu
+    <MuiMenu
       data-testid='root-menu'
       anchorEl={anchorEl}
       open={open}
@@ -84,6 +84,6 @@ export function MultiLevelMenu({ anchorEl, open, onClose, items }: Props) {
       }}
     >
       {renderedMenuEntries}
-    </Menu>
+    </MuiMenu>
   );
 }

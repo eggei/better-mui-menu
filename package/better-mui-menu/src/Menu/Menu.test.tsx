@@ -10,8 +10,8 @@ import Cloud from '@mui/icons-material/Cloud';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ContentCut from '@mui/icons-material/ContentCut';
 import ContentPaste from '@mui/icons-material/ContentPaste';
-import type { MultiLevelMenuItem } from './types';
-import { MultiLevelMenu } from './index';
+import type { MenuItem } from './types';
+import { Menu } from './index';
 
 const buildMenuItems = () => {
   const spies = {
@@ -20,7 +20,7 @@ const buildMenuItems = () => {
     deep: jest.fn(),
   };
 
-  const items: MultiLevelMenuItem[] = [
+  const items: MenuItem[] = [
     {
       id: 'cut',
       label: 'Cut',
@@ -58,7 +58,7 @@ const buildMenuItems = () => {
   return { items, spies };
 };
 
-function MenuWithTrigger({ items }: { items: MultiLevelMenuItem[] }) {
+function MenuWithTrigger({ items }: { items: MenuItem[] }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
@@ -80,7 +80,7 @@ function MenuWithTrigger({ items }: { items: MultiLevelMenuItem[] }) {
       >
         Menu Actions
       </button>
-      <MultiLevelMenu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} items={items} />
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} items={items} />
     </>
   );
 }
@@ -93,7 +93,7 @@ const setupMenu = () => {
   return { user, toggleButton, spies };
 };
 
-describe('MultiLevelMenu', () => {
+describe('Menu', () => {
   it('closes the root menu after selecting a leaf action', async () => {
     const { user, toggleButton, spies } = setupMenu();
     await user.click(toggleButton);
@@ -116,7 +116,7 @@ describe('MultiLevelMenu', () => {
       copy: jest.fn(),
       nested: jest.fn(),
     };
-    const items: MultiLevelMenuItem[] = [
+    const items: MenuItem[] = [
       {
         label: 'Copy',
         startIcon: ContentCopy,

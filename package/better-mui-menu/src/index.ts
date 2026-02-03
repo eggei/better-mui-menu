@@ -1,4 +1,4 @@
-import { MultiLevelMenu } from './MultiLevelMenu'
+import { Menu } from './Menu'
 
-export type { MultiLevelMenuItem } from './MultiLevelMenu/types'
-export default MultiLevelMenu
+export type { MenuItem } from './Menu/types'
+export default Menu
