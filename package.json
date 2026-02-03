@@ -6,6 +6,12 @@
   ],
   "scripts": {
     "dev:lib": "npm --workspace package/better-mui-menu run dev",
-    "dev:demo": "npm --workspace app/demo run dev"
-  }
+    "dev:demo": "npm --workspace app/demo run dev",
+    "dev": "npm run dev:lib & npm run dev:demo",
+    "lint": "npm --workspace package/better-mui-menu run lint",
+    "tsc": "npm --workspace package/better-mui-menu run tsc",
+    "test:lib": "npm --workspace package/better-mui-menu run test",
+    "test": "npm run lint && npm run tsc && npm run test:lib"
+  },
+  "version": "1.0.0"
 }

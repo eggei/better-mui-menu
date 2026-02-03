@@ -1,8 +1,25 @@
-import { Box, Button, CssBaseline, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  CssBaseline,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Menu, { type MenuItem } from 'better-mui-menu'
 import { useState } from 'react'
-import { Cloud, CloudQueue, ContentCopy, ContentCut, ContentPaste, Google, Settings, Storage } from '@mui/icons-material'
+import {
+  AccessibilityNewRounded,
+  Cloud,
+  CloudQueue,
+  ContentCopy,
+  ContentCut,
+  ContentPaste,
+  Google,
+  Storage,
+} from '@mui/icons-material'
+import { blueGrey } from '@mui/material/colors'
 
 const theme = createTheme()
 
@@ -78,6 +95,20 @@ const menuItems: MenuItem[] = [
   },
 ];
 
+const simpleUsageSnippet = String.raw`const items = [
+  { label: 'Cut', onClick: () => console.log('Cut') },
+  { label: 'Delete', onClick: () => console.log('Delete') },
+  { type: 'divider' },
+  { label: 'Other', items: [{...}] }, <-- Nested Menu
+]
+
+<Menu
+  items={items}
+  anchorRef={anchorRef}
+  open={Boolean(anchorRef)}
+  onClose={() => {}}
+/>`
+
 function App() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -90,7 +121,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Stack p={4} maxWidth={560} gap={2}>
+      <Stack p={4} maxWidth={640} gap={2}>
         <Box>
           <Typography variant='h5' gutterBottom>
             Better MUI Material UI Menu
@@ -100,11 +131,64 @@ function App() {
             A plain material UI menu with added features.
           </Typography>
 
-          <Typography variant='caption' gutterBottom sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
-            npm install better-mui-menu
+          <Stack direction='row' alignItems='center' gap={1}>
+            <Typography variant='caption' sx={{ p: 1, backgroundColor: blueGrey[100], color: blueGrey[800], borderRadius: 1 }}>
+              npm i better-mui-menu
+            </Typography>
+            {/* Add a copy text button with a copy icon in MUI icon button */}
+            <IconButton size='small' aria-label="copy" onClick={() => { navigator.clipboard.writeText('npm install better-mui-menu') }}>
+              <ContentCopy />
+            </IconButton>
+          </Stack>
+        </Box>
+        <Box>
+          <Typography variant='h6' gutterBottom>Who should use?</Typography>
+          <Typography variant='body2' gutterBottom>
+            You realized your MUI menu doesn't support keyboard navigation, hence the bad accessibility score. <br /><br />You need to improve quickly without changing your design system. And you realized it is pretty hard, and even AI isn't very helpful.
           </Typography>
         </Box>
         <Box>
+          <Typography variant='h6' gutterBottom>Try it out</Typography>
+          <Stack sx={{ borderRadius: 1, p: 2, backgroundColor: blueGrey[100] }}>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <Button
+                id='icon-menu-button'
+                aria-controls={anchorEl ? 'icon-menu' : undefined}
+                aria-haspopup='true'
+                aria-expanded={anchorEl ? 'true' : undefined}
+                onClick={handleClick}
+                variant='contained'
+                startIcon={<AccessibilityNewRounded />}
+                color='inherit'
+              >
+                Menu
+              </Button>
+
+              <Menu items={menuItems} anchorEl={anchorEl} onClose={handleClose} open={Boolean(anchorEl)} />
+            </Box>
+          </Stack>
+        </Box>
+        <Box>
+          <Typography variant='h6' gutterBottom>Usage</Typography>
+          <Box
+            component='pre'
+            sx={{
+              fontFamily: 'Monospace',
+              backgroundColor: blueGrey[100],
+              color: blueGrey[800],
+              borderRadius: 1,
+              p: 1,
+              mt: 1,
+              fontSize: '0.85rem',
+              lineHeight: 1.5,
+              overflow: 'auto',
+            }}
+          >
+            {simpleUsageSnippet}
+          </Box>
+        </Box>
+        <Box>
+          <Typography variant='h6' gutterBottom>Why?</Typography>
           <Typography variant='body2' gutterBottom>
             I realized that it is a big pain creating a menu with nested menus, and making it keyboard accessible for an accessible product.
           </Typography>
@@ -115,33 +199,8 @@ function App() {
             So, I decided to share this menu component which has no extra styling, nor so much new interface to learn about. Just drop it in your MUI project, it will pick up your theme,
             and use it with ease knowing that it is accessible and works well.
           </Typography>
-          <Typography component="span" variant='body2' gutterBottom>
-            <ul>
-              <li><b>Nested menu items</b> - You can add sub menus to any menu item.</li>
-              <li><b>Keyboard navigation</b> - Use arrow keys to navigate between menu items and sub menus.</li>
-              <li><b>Accessibile</b> - Fully accessible with proper ARIA attributes. Ready for screen readers.</li>
-              <li><b>Customizable</b> - Customize the menu items using MUI's standard menu item props or style through MUI styling system as you would for other MUI components.</li>
-              <li><b>TypeScript support</b> - Built with TypeScript and provides type definitions for menu items.</li>
-              <li><b>Lightweight</b> - Minimal dependencies and optimized for performance.</li>
-              <li><b>Tested</b> - Thoroughly tested for reliability and stability.</li>
-            </ul>
-          </Typography>
         </Box>
-        <Box>
-          <Button
-            id='icon-menu-button'
-            aria-controls={anchorEl ? 'icon-menu' : undefined}
-            aria-haspopup='true'
-            aria-expanded={anchorEl ? 'true' : undefined}
-            onClick={handleClick}
-            variant='outlined'
-            startIcon={<Settings />}
-          >
-            Menu
-          </Button>
 
-          <Menu items={menuItems} anchorEl={anchorEl} onClose={handleClose} open={Boolean(anchorEl)} />
-        </Box>
 
       </Stack>
     </ThemeProvider>

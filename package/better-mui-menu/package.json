@@ -1,6 +1,14 @@
 {
   "name": "better-mui-menu",
-  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eggei/better-mui-menu.git"
+  },
+  "homepage": "https://github.com/eggei/better-mui-menu#readme",
+  "bugs": {
+    "url": "https://github.com/eggei/better-mui-menu/issues"
+  },
+  "version": "1.0.0",
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.cjs",
@@ -17,11 +25,24 @@
     "tsc": "tsc --noEmit --project ../../tsconfig.json",
     "build": "tsup",
     "dev": "tsup --watch",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm --prefix ../.. run test && npm run build",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "mui",
+    "material-ui",
+    "menu",
+    "react",
+    "typescript",
+    "component",
+    "nested",
+    "nested menu",
+    "submenu",
+    "sub menu",
+    "keyboard navigation",
+    "accessibility"
+  ],
+  "author": "eggei",
   "license": "ISC",
   "devDependencies": {
     "@emotion/react": "^11.14.0",
