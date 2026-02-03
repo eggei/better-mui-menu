@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+/// <reference types="@testing-library/jest-dom" />
 import { MouseEvent, useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
