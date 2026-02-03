@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { MenuItemProps } from '@mui/material/MenuItem';
-import { SvgIconComponent } from '@mui/icons-material';
+import type { SvgIconComponent } from '@mui/icons-material';
 
 export type MultiLevelMenuItemBase =
   | { type: 'divider' }

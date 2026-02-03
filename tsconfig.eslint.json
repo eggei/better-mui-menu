@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["package/better-mui-menu/src", "package/better-mui-menu/jest.setup.ts"]
+}

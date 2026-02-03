@@ -2,7 +2,8 @@
  * @jest-environment jsdom
  */
 /// <reference types="@testing-library/jest-dom" />
-import { MouseEvent, useState } from 'react';
+import type { MouseEvent } from 'react';
+import { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cloud from '@mui/icons-material/Cloud';

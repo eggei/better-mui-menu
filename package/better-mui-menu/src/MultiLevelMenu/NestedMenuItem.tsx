@@ -1,6 +1,8 @@
-import * as React from 'react';
+import type { FC, ReactNode, MouseEvent, KeyboardEvent } from 'react';
+import { Children, cloneElement, isValidElement, useCallback, useId, useRef, useState } from 'react';
 import Fade from '@mui/material/Fade';
-import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
+import type { MenuItemProps } from '@mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import type { SvgIconComponent } from '@mui/icons-material';
@@ -9,17 +11,17 @@ import type { MultiLevelMenuItem } from './types';
 import { MenuItemContent, transitionConfig } from './common';
 
 type NestedMenuItemProps = MenuItemProps & {
-  label: React.ReactNode;
+  label: ReactNode;
   startIcon?: SvgIconComponent;
   endIcon?: SvgIconComponent;
   parentMenuClose: () => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
   items?: MultiLevelMenuItem[];
 };
 
 const isNodeInstance = (target: EventTarget | null): target is Node => target instanceof Node;
 
-export const NestedMenuItem: React.FC<NestedMenuItemProps> = props => {
+export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
   const {
     id: providedId,
     label,
@@ -30,35 +32,35 @@ export const NestedMenuItem: React.FC<NestedMenuItemProps> = props => {
     endIcon: _,
     ...menuItemProps
   } = props;
-  const [subMenuAnchorEl, setSubMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [subMenuAnchorEl, setSubMenuAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(subMenuAnchorEl);
-  const menuItemRef = React.useRef<HTMLLIElement>(null);
-  const subMenuRef = React.useRef<HTMLDivElement>(null);
-  const generatedId = React.useId();
+  const menuItemRef = useRef<HTMLLIElement>(null);
+  const subMenuRef = useRef<HTMLDivElement>(null);
+  const generatedId = useId();
   const menuItemId = providedId ?? `nested-menu-trigger-${generatedId}`;
   const subMenuId = `${menuItemId}-submenu`;
 
-  const handleOpen = (event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>) => {
+  const handleOpen = (event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) => {
     setSubMenuAnchorEl(event.currentTarget);
   };
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     setSubMenuAnchorEl(null);
   }, []);
 
-  const renderChildren = React.Children.map(children, child => {
-    if (!React.isValidElement(child)) return child;
+  const renderChildren = Children.map(children, child => {
+    if (!isValidElement(child)) return child;
 
     // Ensure we only process MUI MenuItem children
     if (child.type === MenuItem) {
       const childOnClick = (child.props as MenuItemProps).onClick;
       // Merge any user-defined click logic with the submenu closing behavior.
-      const clonedOnClick = (event: React.MouseEvent<HTMLLIElement>) => {
+      const clonedOnClick = (event: MouseEvent<HTMLLIElement>) => {
         childOnClick?.(event);
         handleClose(); // Close the submenu
         parentMenuClose();
       };
-      return React.cloneElement(child, { onClick: clonedOnClick } as Partial<MenuItemProps>);
+      return cloneElement(child, { onClick: clonedOnClick } as Partial<MenuItemProps>);
     }
     return child;
   });
@@ -68,7 +70,7 @@ export const NestedMenuItem: React.FC<NestedMenuItemProps> = props => {
 
     return items.map((item, index) => {
       if (item.type === 'divider') {
-        // eslint-disable-next-line react/no-array-index-key -- This is the best way to achieve this here.
+
         return <Divider key={`divider-${index}`} />;
       }
 
@@ -99,7 +101,7 @@ export const NestedMenuItem: React.FC<NestedMenuItemProps> = props => {
         );
       }
 
-      const handleItemClick = (event: React.MouseEvent<HTMLLIElement>) => {
+      const handleItemClick = (event: MouseEvent<HTMLLIElement>) => {
         onClick?.(event);
         handleClose();
         parentMenuClose();
@@ -199,7 +201,7 @@ export const NestedMenuItem: React.FC<NestedMenuItemProps> = props => {
                 role='menu'
                 onKeyDown={e => {
                   if (e.key === 'ArrowLeft') {
-                    const { nativeEvent } = e as React.KeyboardEvent<HTMLUListElement> & {
+                    const { nativeEvent } = e as KeyboardEvent<HTMLUListElement> & {
                       nativeEvent: KeyboardEvent & {
                         // our custom flag to avoid duplicate handling in nested menus
                         __nestedMenuArrowLeftHandled?: boolean;

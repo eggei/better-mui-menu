@@ -19,7 +19,6 @@ export function MultiLevelMenu({ anchorEl, open, onClose, items }: Props) {
 
   const renderedMenuEntries = items.map((item, index) => {
     if (item.type === 'divider') {
-      // eslint-disable-next-line react/no-array-index-key -- This is the best way to achieve this here.
       return <Divider key={`divider-${index}`} />;
     }
 
