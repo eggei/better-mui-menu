@@ -17,7 +17,7 @@
     "tsc": "tsc --noEmit --project ../../tsconfig.json",
     "build": "tsup",
     "dev": "tsup --watch",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm --prefix ../.. run test && node scripts/ensure-version-tag.mjs && npm run build",
     "test": "jest"
   },
   "keywords": [],
