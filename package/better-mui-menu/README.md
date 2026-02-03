@@ -23,9 +23,9 @@ import { useState } from 'react'
 import Button from '@mui/material/Button'
 import Cloud from '@mui/icons-material/Cloud'
 import Save from '@mui/icons-material/Save'
-import { MultiLevelMenu, type MultiLevelMenuItem } from 'better-mui-menu'
+import Menu, { type MenuItem } from 'better-mui-menu'
 
-const menuItems: MultiLevelMenuItem[] = [
+const menuItems: MenuItem[] = [
   {
     id: 'save',
     label: 'Save',
@@ -61,7 +61,7 @@ export function FileMenu() {
       <Button variant='contained' onClick={event => setAnchorEl(event.currentTarget)}>
         Open file menu
       </Button>
-      <MultiLevelMenu
+      <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}
@@ -74,22 +74,22 @@ export function FileMenu() {
 
 ## API
 
-### `MultiLevelMenu` props
+### `Menu` props
 
 - `anchorEl: HTMLElement | null` – the anchor element that the root menu positions itself against.
 - `open: boolean` – controlled open state of the root menu.
 - `onClose: () => void` – invoked whenever the menu should close (overlay click, Escape, item selection).
-- `items: MultiLevelMenuItem[]` – the array that drives both leaf menu items and nested branches.
+- `items: MenuItem[]` – the array that drives both leaf menu items and nested branches.
 
-### `MultiLevelMenuItem`
+### `MenuItem`
 
-`MultiLevelMenuItem` extends `@mui/material/MenuItemProps` (excluding `children`) so you can pass `disabled`, `dense`, `divider`, etc. The shape adds a few helpers:
+`MenuItem` extends `@mui/material/MenuItemProps` (excluding `children`) so you can pass `disabled`, `dense`, `divider`, etc. The shape adds a few helpers:
 
 - `type?: 'item' | 'divider'` – set `'divider'` to render a `Divider` instead of a `MenuItem`.
 - `id?: string` – optional string used for ARIA attributes; a stable ID is generated automatically when omitted.
 - `label: ReactNode` – the text or custom node shown inside the menu entry.
 - `startIcon?: SvgIconComponent`, `endIcon?: SvgIconComponent` – render Material icons before/after the label using the shared `MenuItemContent` layout.
-- `items?: MultiLevelMenuItem[]` – nested descriptors that render as a submenu via `NestedMenuItem`.
+- `items?: MenuItem[]` – nested descriptors that render as a submenu via `NestedMenuItem`.
 - `onClick?: MenuItemProps['onClick']` – clicking a leaf entry automatically propagates the handler and closes the entire menu stack.
 
 ## Interactions & accessibility
@@ -104,7 +104,7 @@ All development happens under `package/better-mui-menu`:
 
 - `npm run dev` – runs `tsup --watch` to rebuild `src` into `dist`.
 - `npm run build` – creates production bundles ready for publication.
-- `npm run test` – executes the Jest suite defined in `src/MultiLevelMenu/MultiLevelMenu.test.tsx`.
+- `npm run test` – executes the Jest suite defined in `src/Menu/Menu.test.tsx`.
 
 The root workspace exposes `npm run dev:lib` and `npm run dev:demo` to simultaneously rebuild the library and power the demo app. When you change the menu source, keep `npm run dev` (or `npm run build`) running before refreshing the demo because the Vite app imports the library via its `file:` workspace link.
 

@@ -2,12 +2,12 @@ import type { FC, ReactNode, MouseEvent, KeyboardEvent } from 'react';
 import { Children, cloneElement, isValidElement, useCallback, useId, useRef, useState } from 'react';
 import Fade from '@mui/material/Fade';
 import type { MenuItemProps } from '@mui/material/MenuItem';
-import MenuItem from '@mui/material/MenuItem';
+import MuiMenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import type { SvgIconComponent } from '@mui/icons-material';
 import { MenuList, Paper, Popper, Typography } from '@mui/material';
-import type { MultiLevelMenuItem } from './types';
+import type { MenuItem } from './types';
 import { MenuItemContent, transitionConfig } from './common';
 
 type NestedMenuItemProps = MenuItemProps & {
@@ -16,7 +16,7 @@ type NestedMenuItemProps = MenuItemProps & {
   endIcon?: SvgIconComponent;
   parentMenuClose: () => void;
   children?: ReactNode;
-  items?: MultiLevelMenuItem[];
+  items?: MenuItem[];
 };
 
 const isNodeInstance = (target: EventTarget | null): target is Node => target instanceof Node;
@@ -52,7 +52,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
     if (!isValidElement(child)) return child;
 
     // Ensure we only process MUI MenuItem children
-    if (child.type === MenuItem) {
+    if (child.type === MuiMenuItem) {
       const childOnClick = (child.props as MenuItemProps).onClick;
       // Merge any user-defined click logic with the submenu closing behavior.
       const clonedOnClick = (event: MouseEvent<HTMLLIElement>) => {
@@ -108,13 +108,13 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       };
 
       return (
-        <MenuItem key={entryKey} onClick={handleItemClick}>
+        <MuiMenuItem key={entryKey} onClick={handleItemClick}>
           <MenuItemContent>
             {NestedMenuItemStartIcon ? <NestedMenuItemStartIcon /> : null}
             <Typography sx={{ flex: 1 }}>{entryLabelValue}</Typography>
             {NestedMenuItemEndIcon ? <NestedMenuItemEndIcon /> : null}
           </MenuItemContent>
-        </MenuItem>
+        </MuiMenuItem>
       );
     });
   };
@@ -123,7 +123,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
 
   return (
     <>
-      <MenuItem
+      <MuiMenuItem
         data-testid={`${menuItemId}-trigger`}
         id={menuItemId}
         ref={menuItemRef}
@@ -155,7 +155,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
           <Typography sx={{ flex: 1 }}>{label}</Typography>
           <ArrowRightIcon />
         </MenuItemContent>
-      </MenuItem>
+      </MuiMenuItem>
 
       <Popper
         data-testid={`${menuItemId}-submenu`}

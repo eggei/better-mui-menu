@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import type { MenuItemProps } from '@mui/material/MenuItem';
+import type { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
 import type { SvgIconComponent } from '@mui/icons-material';
 
-export type MultiLevelMenuItemBase =
+export type MenuItemBase =
   | { type: 'divider' }
   | {
       type?: 'item';
@@ -10,7 +10,7 @@ export type MultiLevelMenuItemBase =
       label: ReactNode;
       startIcon?: SvgIconComponent;
       endIcon?: SvgIconComponent;
-      items?: MultiLevelMenuItem[];
+      items?: MenuItem[];
     };
 
-export type MultiLevelMenuItem = MultiLevelMenuItemBase & Omit<MenuItemProps, 'children'>;
+export type MenuItem = MenuItemBase & Omit<MuiMenuItemProps, 'children'>;

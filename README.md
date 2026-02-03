@@ -1,8 +1,17 @@
 # better-mui-menu
+<<<<<<< Updated upstream
 `better-mui-menu` is a tiny npm workspace that houses a reusable Material UI-based multilevel menu together with a minimal Vite demo that lets you visualize changes instantly.
 
 ## Repository layout
 - `package/better-mui-menu` – the library package, authored in TypeScript, bundled with `tsup`, and exported for both ESM and CommonJS consumers. It exposes the `<MultiLevelMenu />` component plus the `MultiLevelMenuItem` type.
+=======
+
+`better-mui-menu` is a tiny npm workspace that houses a reusable Material UI-based multilevel menu together with a minimal Vite demo that lets you visualize changes.
+
+## Repository layout
+
+- `package/better-mui-menu` – the library package, authored in TypeScript, bundled with `tsup`, and exported for both ESM and CommonJS consumers. It exposes the `<Menu />` component plus the `MenuItem` type.
+>>>>>>> Stashed changes
 - `app/demo` – a Vite + React 19 preview application that consumes the local package via the `file:../../package/better-mui-menu` dependency.
 
 ## Getting started
