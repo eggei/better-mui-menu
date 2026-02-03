@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { MouseEvent, useState } from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cloud from '@mui/icons-material/Cloud';
 import ContentCopy from '@mui/icons-material/ContentCopy';
@@ -248,7 +248,9 @@ describe('MultiLevelMenu', () => {
       await user.click(toggleButton);
 
       const nestedTrigger = await screen.findByRole('menuitem', { name: 'Web Clipboard' });
-      nestedTrigger.focus();
+      await act(() => {
+        nestedTrigger.focus();
+      });
 
       await user.keyboard('{ArrowRight}');
       const firstNestedItem = await screen.findByRole('menuitem', { name: 'Google Cloud' });
