@@ -11,6 +11,9 @@
   "version": "1.0.2",
   "type": "module",
   "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,22 +31,9 @@
     "prepublishOnly": "npm --prefix ../.. run test && npm run build",
     "test": "jest"
   },
-  "keywords": [
-    "mui",
-    "material-ui",
-    "menu",
-    "react",
-    "typescript",
-    "component",
-    "nested",
-    "nested menu",
-    "submenu",
-    "sub menu",
-    "keyboard navigation",
-    "accessibility"
-  ],
+  "keywords": ["mui", "material-ui", "menu", "react", "typescript", "component", "nested", "nested menu", "submenu", "sub menu", "keyboard navigation", "accessibility"],
   "author": "eggei",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -72,11 +62,11 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.7",
-    "@mui/material": "^7.3.7",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.1"
+    "@mui/material": "^5.0.0 || ^6.0.0 || ^7.0.0",
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@types/react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   }
 }
