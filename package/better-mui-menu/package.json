@@ -8,7 +8,7 @@
   "bugs": {
     "url": "https://github.com/eggei/better-mui-menu/issues"
   },
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "sideEffects": false,
   "files": [
