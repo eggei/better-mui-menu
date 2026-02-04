@@ -8,7 +8,7 @@
   "bugs": {
     "url": "https://github.com/eggei/better-mui-menu/issues"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "sideEffects": false,
   "files": [
@@ -31,7 +31,20 @@
     "prepublishOnly": "npm --prefix ../.. run test && npm run build",
     "test": "jest"
   },
-  "keywords": ["mui", "material-ui", "menu", "react", "typescript", "component", "nested", "nested menu", "submenu", "sub menu", "keyboard navigation", "accessibility"],
+  "keywords": [
+    "mui",
+    "material-ui",
+    "menu",
+    "react",
+    "typescript",
+    "component",
+    "nested",
+    "nested menu",
+    "submenu",
+    "sub menu",
+    "keyboard navigation",
+    "accessibility"
+  ],
   "author": "eggei",
   "license": "MIT",
   "devDependencies": {
