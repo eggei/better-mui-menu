@@ -8,7 +8,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import type { SvgIconComponent } from '@mui/icons-material';
 import { MenuList, Paper, Popper, Typography } from '@mui/material';
 import type { MenuItem } from './types';
-import { MenuItemContent, transitionConfig } from './common';
+import { CLOSE_DELAY, MenuItemContent, transitionConfig } from './common';
 
 type NestedMenuItemProps = MenuItemProps & {
   label: ReactNode;
@@ -40,7 +40,6 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
   const menuItemId = providedId ?? `nested-menu-trigger-${generatedId}`;
   const subMenuId = `${menuItemId}-submenu`;
 
-  const CLOSE_DELAY = 150;
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearCloseTimer = useCallback(() => {
