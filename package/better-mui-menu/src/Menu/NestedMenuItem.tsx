@@ -40,14 +40,35 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
   const menuItemId = providedId ?? `nested-menu-trigger-${generatedId}`;
   const subMenuId = `${menuItemId}-submenu`;
 
+  const CLOSE_DELAY = 150;
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearCloseTimer = useCallback(() => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }, []);
+
+  const handleClose = useCallback(() => {
+    clearCloseTimer();
+    setSubMenuAnchorEl(null);
+  }, [clearCloseTimer]);
+
+  const scheduleClose = useCallback(() => {
+    clearCloseTimer();
+    closeTimerRef.current = setTimeout(() => {
+      handleClose();
+    }, CLOSE_DELAY);
+  }, [clearCloseTimer, handleClose]);
+
   const handleOpen = (event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) => {
+    clearCloseTimer();
     setSubMenuAnchorEl(event.currentTarget);
   };
 
-  const handleClose = useCallback(() => {
-    setSubMenuAnchorEl(null);
-  }, []);
 
+  // eslint-disable-next-line react-hooks/refs
   const renderChildren = Children.map(children, child => {
     if (!isValidElement(child)) return child;
 
@@ -134,7 +155,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
           // TODO(ege): There can be a timeout here before we execute closing to improve UX - in case user is not very precise with mouse.
           if (isNodeInstance(e.relatedTarget) && subMenuRef.current?.contains(e.relatedTarget)) return;
           // If the cursor leaves to anywhere else, close the submenu.
-          handleClose();
+          scheduleClose();
         }}
         onKeyDown={e => {
           e.preventDefault();
@@ -176,13 +197,14 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
             e.stopPropagation();
           }
         }}
+        onMouseEnter={clearCloseTimer}
         onMouseLeave={e => {
           // CRITICAL FEATURE:
           // Checking whether cursor left the submenu onto the related trigger item. If so, do not close.
           // TODO(ege): There can be a timeout here before we execute closing to improve UX - in case user is not very precise with mouse.
           if (isNodeInstance(e.relatedTarget) && menuItemRef.current?.contains(e.relatedTarget)) return;
           // If the cursor leaves to anywhere else, close the submenu.
-          handleClose();
+          scheduleClose();
         }}
       >
         {({ TransitionProps }) => (
@@ -219,9 +241,17 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
                     }
                     // Mark this event as handled to prevent parent menus from also processing it
                     nativeEvent.__nestedMenuArrowLeftHandled = true;
+                    // preventDefault is needed so the browser doesn’t do its own “arrow left” behavior (like moving the text caret
+                    // or changing focus) while the menu is managing the navigation. Without this, the closed submenu or focused item
+                    // might jump unexpectedly even though the menu logic is running.
                     e.preventDefault();
+                    // stopPropagation stops the event from bubbling up to parent DOM nodes that might also have onKeyDown, which could
+                    // otherwise fight the menu’s own logic or trigger duplicate navigation even though we guard with __nestedMenuArrowLeftHandled
                     e.stopPropagation();
-                    // immediately halt any other listeners so we have exclusive control now
+                    // stopImmediatePropagation keeps any other keydown handlers registered on this same DOM node from running after ours.
+                    // This is preventing all submenus to close when pressing ArrowLeft in a, say, third level menu. With this, ArrowLeft will only
+                    // close the current submenu. The __nestedMenuArrowLeftHandled flag only guards against bubbling; this stopImmediatePropagation()
+                    // ensures no other handlers wired to the same node interfere once we decide to close and focus.
                     nativeEvent.stopImmediatePropagation();
                     // close the sub menu
                     handleClose();
