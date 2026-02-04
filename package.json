@@ -12,5 +12,6 @@
     "tsc": "npm --workspace package/better-mui-menu run tsc",
     "test:lib": "npm --workspace package/better-mui-menu run test",
     "test": "npm run lint && npm run tsc && npm run test:lib"
-  }
+  },
+  "version": "0.0.1"
 }
