@@ -4,6 +4,12 @@
 
 `better-mui-menu` is a lightweight drop-in for Material UI that keeps a normal `Menu` structure while adding nested menus and full keyboard accessibility so nothing breaks audits or expectations in an MUI app.
 
+## Live demo
+
+Try it: [StackBlitz playground](https://stackblitz.com/edit/vitejs-vite-autejxh8?file=src/MenuDemo.tsx).
+
+![Menu demo preview](./app/demo/assets/bmm-demo.gif)
+
 ## Features
 
 - **Unlimited nesting** – describe every submenu with an `items` array and `better-mui-menu` renders `NestedMenuItem` poppers that stay synchronized with their parents.
