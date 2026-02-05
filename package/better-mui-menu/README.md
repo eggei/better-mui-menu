@@ -1,6 +1,8 @@
 # better-mui-menu
 
-`better-mui-menu` is a lightweight drop-in for Material UI that keeps a normal `Menu` structure while adding nested submenus and full keyboard accessibility so nothing breaks audits or expectations in an MUI app.
+[![CI](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml/badge.svg)](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/better-mui-menu.svg?color=brightgreen)](https://www.npmjs.com/package/better-mui-menu) [![npm downloads](https://img.shields.io/npm/dt/better-mui-menu.svg?color=informational)](https://www.npmjs.com/package/better-mui-menu) [![License: MIT](https://img.shields.io/npm/l/better-mui-menu.svg)](https://opensource.org/licenses/MIT)
+
+`better-mui-menu` is a lightweight drop-in for Material UI that keeps a normal `Menu` structure while adding nested menus and full keyboard accessibility so nothing breaks audits or expectations in an MUI app.
 
 ## Features
 
@@ -14,7 +16,7 @@
 npm install better-mui-menu
 ```
 
-Since the component renders Material UI primitives, make sure you have the peer dependencies installed
+Since the component renders Material UI primitives, also install the peer dependencies:
 
 ```bash
 npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
