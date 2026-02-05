@@ -6,7 +6,7 @@
 
 ## Live demo
 
-Try it: [StackBlitz playground](https://stackblitz.com/edit/vitejs-vite-autejxh8?file=src/MenuDemo.tsx).
+Try it: [StackBlitz playground](https://stackblitz.com/edit/vitejs-vite-autejxh8?embed=1&file=src%2FMenuDemo.tsx&view=preview).
 
 ![Menu demo preview](./app/demo/assets/bmm-demo.gif)
 
