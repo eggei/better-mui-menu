@@ -7,13 +7,9 @@ export const transitionConfig = {
   timeout: { enter: CLOSE_DELAY + 50, exit: CLOSE_DELAY + 50 },
 };
 
-export const MenuItemContent = styled(Stack)(({ theme }) => ({
+export const MenuItemContent = styled(Stack)({
   flexDirection: 'row',
   alignItems: 'center',
-  gap: theme.spacing(1),
-  fontSize: theme.typography.body1.fontSize,
-  '& .MuiSvgIcon-root': {
-    fontSize: theme.typography.body2.fontSize,
-  },
+  gap: '8px',
   padding: 0,
-}));
+});
