@@ -164,7 +164,7 @@ function App() {
                 Menu
               </Button>
 
-              <Menu items={menuItems} anchorEl={anchorEl} onClose={handleClose} open={Boolean(anchorEl)} slotProps={{ paper: { sx: { maxHeight: 300 } } }} />
+              <Menu items={menuItems} anchorEl={anchorEl} onClose={handleClose} open={Boolean(anchorEl)} elevation={8} />
             </Box>
           </Stack>
         </Box>

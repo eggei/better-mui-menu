@@ -6,15 +6,16 @@ import React, { useId } from 'react';
 import { Typography } from '@mui/material';
 import { NestedMenuItem } from './NestedMenuItem';
 import type { MenuItem } from './types';
-import { MenuItemContent, transitionConfig } from './common';
+import { DEFAULT_ELEVATION, MenuItemContent, transitionConfig } from './common';
 
 export type Props = {
   items: MenuItem[];
   onClose?: (event: React.MouseEvent | React.KeyboardEvent, reason: 'itemClick' | 'escapeKeyDown' | 'backdropClick', menuItemId?: string
   ) => void;
-} & MenuProps;
+} & Omit<MenuProps, 'onClose'>;
 
-export function Menu({ items, ...menuProps }: Props) {
+export function Menu({ items, elevation = DEFAULT_ELEVATION, ...rest }: Props) {
+  const menuProps: Omit<Props, 'items'> = { elevation, ...rest }; // setting the elevation for all nested menus here
   const generatedMenuId = useId();
 
   const renderedMenuEntries = items.map((item, index) => {
@@ -46,6 +47,7 @@ export function Menu({ items, ...menuProps }: Props) {
           endIcon={EndIconComponent}
           parentMenuClose={menuProps.onClose}
           items={nestedItems}
+          menuProps={menuProps}
         />
       );
     }

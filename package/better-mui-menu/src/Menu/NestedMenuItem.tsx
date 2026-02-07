@@ -6,6 +6,7 @@ import MuiMenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import type { SvgIconComponent } from '@mui/icons-material';
+import type { MenuListProps, MenuProps, PaperProps } from '@mui/material';
 import { MenuList, Paper, Popper, Typography } from '@mui/material';
 import type { MenuItem } from './types';
 import { CLOSE_DELAY, MenuItemContent, transitionConfig } from './common';
@@ -18,6 +19,7 @@ type NestedMenuItemProps = MenuItemProps & {
   parentMenuClose: BetterMenuProps['onClose'];
   children?: ReactNode;
   items?: MenuItem[];
+  menuProps: MenuProps;
 };
 
 const isNodeInstance = (target: EventTarget | null): target is Node => target instanceof Node;
@@ -31,6 +33,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
     children,
     items,
     endIcon: _,
+    menuProps,
     ...menuItemProps
   } = props;
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -118,6 +121,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
             endIcon={NestedMenuItemEndIcon}
             parentMenuClose={parentMenuClose}
             items={entryItems}
+            menuProps={menuProps}
           />
         );
       }
@@ -152,7 +156,6 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
         onMouseLeave={e => {
           // CRITICAL FEATURE:
           // Checking whether cursor left the menu item onto the related menu. If so, do not close.
-          // TODO(ege): There can be a timeout here before we execute closing to improve UX - in case user is not very precise with mouse.
           if (isNodeInstance(e.relatedTarget) && subMenuRef.current?.contains(e.relatedTarget)) return;
           // If the cursor leaves to anywhere else, close the submenu.
           scheduleClose();
@@ -178,6 +181,13 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
         </MenuItemContent>
       </MuiMenuItem>
 
+      {/**
+       * CRITICAL FEATURE: Menu over Menu fails with focus management and keyboard navigations. 
+       *  It is way more complex to make Menu to work compared to Popper. So, I made the decision to use Popper for submenus.
+       *  This way we can manage focus and keyboard navigation simpler, and we can also avoid some weird edge cases.
+       *  If you change this to regular Menu, you will realize that you need to add many custom JS logic to manage focus and keyboard navigation,
+       *  as well as to block Menu's internal logic.
+      */}
       <Popper
         data-testid={`${menuItemId}-submenu`}
         open={open}
@@ -201,7 +211,6 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
         onMouseLeave={e => {
           // CRITICAL FEATURE:
           // Checking whether cursor left the submenu onto the related trigger item. If so, do not close.
-          // TODO(ege): There can be a timeout here before we execute closing to improve UX - in case user is not very precise with mouse.
           if (isNodeInstance(e.relatedTarget) && menuItemRef.current?.contains(e.relatedTarget)) return;
           // If the cursor leaves to anywhere else, close the submenu.
           scheduleClose();
@@ -209,18 +218,14 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={transitionConfig.timeout}>
-            <Paper
-              elevation={2}
-              sx={{
-                borderRadius: 1,
-                bgcolor: 'background.default',
-              }}
-            >
+            <Paper elevation={menuProps.elevation} {...(menuProps?.slotProps?.paper as PaperProps) || {}}>
               <MenuList
-                autoFocusItem
                 id={subMenuId}
                 aria-labelledby={menuItemId}
                 role='menu'
+                {...(menuProps?.slotProps?.list as MenuListProps) || {}}
+                // What's under is not allowed to be overridden for now
+                autoFocusItem
                 onKeyDown={e => {
                   if (e.key === 'ArrowLeft') {
                     const { nativeEvent } = e as KeyboardEvent<HTMLUListElement> & {
