@@ -9,12 +9,13 @@ import type { SvgIconComponent } from '@mui/icons-material';
 import { MenuList, Paper, Popper, Typography } from '@mui/material';
 import type { MenuItem } from './types';
 import { CLOSE_DELAY, MenuItemContent, transitionConfig } from './common';
+import type { Props as BetterMenuProps } from '.';
 
 type NestedMenuItemProps = MenuItemProps & {
   label: ReactNode;
   startIcon?: SvgIconComponent;
   endIcon?: SvgIconComponent;
-  parentMenuClose: () => void;
+  parentMenuClose: BetterMenuProps['onClose'];
   children?: ReactNode;
   items?: MenuItem[];
 };
@@ -78,7 +79,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       const clonedOnClick = (event: MouseEvent<HTMLLIElement>) => {
         childOnClick?.(event);
         handleClose(); // Close the submenu
-        parentMenuClose();
+        parentMenuClose?.(event, "itemClick", menuItemId);
       };
       return cloneElement(child, { onClick: clonedOnClick } as Partial<MenuItemProps>);
     }
@@ -124,7 +125,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       const handleItemClick = (event: MouseEvent<HTMLLIElement>) => {
         onClick?.(event);
         handleClose();
-        parentMenuClose();
+        parentMenuClose?.(event, "itemClick", entryId);
       };
 
       return (

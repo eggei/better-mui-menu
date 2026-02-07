@@ -1,3 +1,4 @@
+import type { MenuProps } from '@mui/material/Menu';
 import MuiMenu from '@mui/material/Menu';
 import Divider from '@mui/material/Divider';
 import MuiMenuItem from '@mui/material/MenuItem';
@@ -7,14 +8,13 @@ import { NestedMenuItem } from './NestedMenuItem';
 import type { MenuItem } from './types';
 import { MenuItemContent, transitionConfig } from './common';
 
-type Props = {
-  anchorEl: null | HTMLElement;
-  open: boolean;
-  onClose: () => void;
+export type Props = {
   items: MenuItem[];
-};
+  onClose?: (event: React.MouseEvent | React.KeyboardEvent, reason: 'itemClick' | 'escapeKeyDown' | 'backdropClick', menuItemId?: string
+  ) => void;
+} & MenuProps;
 
-export function Menu({ anchorEl, open, onClose, items }: Props) {
+export function Menu({ items, ...menuProps }: Props) {
   const generatedMenuId = useId();
 
   const renderedMenuEntries = items.map((item, index) => {
@@ -44,7 +44,7 @@ export function Menu({ anchorEl, open, onClose, items }: Props) {
           label={displayLabel}
           startIcon={StartIconComponent}
           endIcon={EndIconComponent}
-          parentMenuClose={onClose}
+          parentMenuClose={menuProps.onClose}
           items={nestedItems}
         />
       );
@@ -52,7 +52,7 @@ export function Menu({ anchorEl, open, onClose, items }: Props) {
 
     const handleItemClick = (event: React.MouseEvent<HTMLLIElement>) => {
       onClick?.(event);
-      onClose();
+      menuProps.onClose?.(event, "itemClick", entryId);
     };
 
     return (
@@ -69,19 +69,9 @@ export function Menu({ anchorEl, open, onClose, items }: Props) {
   return (
     <MuiMenu
       data-testid='root-menu'
-      anchorEl={anchorEl}
-      open={open}
-      onClose={onClose}
-      onKeyDown={e => {
-        if (e.key === 'Escape' && open) onClose();
-      }}
-      transitionDuration={transitionConfig.timeout}
-      slots={{ transition: transitionConfig.type }}
-      slotProps={{
-        list: {
-          'aria-labelledby': 'icon-menu-button',
-        },
-      }}
+      {...menuProps}
+      transitionDuration={menuProps.transitionDuration || transitionConfig.timeout}
+      slots={{ transition: transitionConfig.type, ...menuProps.slots }}
     >
       {renderedMenuEntries}
     </MuiMenu>
