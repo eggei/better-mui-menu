@@ -32,7 +32,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
     parentMenuClose,
     children,
     items,
-    endIcon: _,
+    endIcon: EndIconComponent,
     menuProps,
     ...menuItemProps
   } = props;
@@ -176,8 +176,8 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       >
         <MenuItemContent>
           {StartIconComponent ? <StartIconComponent /> : null}
-          <Typography sx={{ flex: 1 }}>{label}</Typography>
-          <ArrowRightIcon />
+          <Typography sx={{ flex: 1, fontFamily: 'inherit' }}>{label}</Typography>
+          {EndIconComponent ? <EndIconComponent /> : <ArrowRightIcon />}
         </MenuItemContent>
       </MuiMenuItem>
 
