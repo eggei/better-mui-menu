@@ -11,11 +11,11 @@ import Menu, { type MenuItem } from 'better-mui-menu'
 import { useState } from 'react'
 import {
   AccessibilityNewRounded,
-  Cloud,
-  CloudQueue,
+  ArrowForward,
+  CloudOutlined,
   ContentCopy,
-  ContentCut,
   ContentPaste,
+  DeleteOutlined,
   Google,
   Storage,
 } from '@mui/icons-material'
@@ -25,28 +25,6 @@ const theme = createTheme()
 
 const menuItems: MenuItem[] = [
   {
-    label: 'Cut',
-    startIcon: ContentCut,
-  },
-  {
-    label: 'Web Clipboard',
-    startIcon: Cloud,
-    items: [
-      {
-        label: 'Google Cloud',
-        startIcon: Google,
-      },
-      {
-        label: 'Azure Clipboard',
-        startIcon: CloudQueue,
-      },
-      {
-        label: 'Local Storage',
-        startIcon: Storage,
-      },
-    ],
-  },
-  {
     label: 'Copy',
     startIcon: ContentCopy,
   },
@@ -55,11 +33,13 @@ const menuItems: MenuItem[] = [
     startIcon: ContentPaste,
   },
   {
-    type: 'divider',
+    label: 'Delete',
+    sx: { color: 'error.main' },
+    startIcon: DeleteOutlined,
   },
   {
     label: 'Web Clipboard',
-    startIcon: Cloud,
+    startIcon: CloudOutlined,
     items: [
       {
         label: 'Google Cloud',
@@ -67,7 +47,7 @@ const menuItems: MenuItem[] = [
       },
       {
         label: 'Web Clipboard',
-        startIcon: Cloud,
+        startIcon: CloudOutlined,
         items: [
           {
             label: 'Google Cloud',
@@ -75,7 +55,7 @@ const menuItems: MenuItem[] = [
           },
           {
             label: 'Azure Clipboard',
-            startIcon: CloudQueue,
+            startIcon: CloudOutlined,
           },
           {
             label: 'Local Storage',
@@ -85,7 +65,30 @@ const menuItems: MenuItem[] = [
       },
       {
         label: 'Azure Clipboard',
-        startIcon: CloudQueue,
+        startIcon: CloudOutlined,
+      },
+      {
+        label: 'Local Storage',
+        startIcon: Storage,
+      },
+    ],
+  },
+  {
+    type: 'divider',
+  },
+  {
+    label: 'Accessibility',
+    startIcon: AccessibilityNewRounded,
+    endIcon: ArrowForward,
+    sx: { fontFamily: 'cursive' },
+    items: [
+      {
+        label: 'Google Cloud',
+        startIcon: Google,
+      },
+      {
+        label: 'Azure Clipboard',
+        startIcon: CloudOutlined,
       },
       {
         label: 'Local Storage',
@@ -164,7 +167,7 @@ function App() {
                 Menu
               </Button>
 
-              <Menu items={menuItems} anchorEl={anchorEl} onClose={handleClose} open={Boolean(anchorEl)} elevation={8} />
+              <Menu items={menuItems} anchorEl={anchorEl} onClose={handleClose} open={Boolean(anchorEl)} />
             </Box>
           </Stack>
         </Box>

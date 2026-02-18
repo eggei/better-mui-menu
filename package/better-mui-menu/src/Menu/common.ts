@@ -11,6 +11,8 @@ export const DEFAULT_ELEVATION = 8; // this is also what MUI menu uses as defaul
 export const MenuItemContent = styled(Stack)({
   flexDirection: 'row',
   alignItems: 'center',
+  justifyContent: 'space-between',
+  width: '100%',
   gap: '8px',
   padding: 0,
 });

@@ -1,5 +1,5 @@
 import type { FC, ReactNode, MouseEvent, KeyboardEvent } from 'react';
-import { Children, cloneElement, isValidElement, useCallback, useId, useRef, useState } from 'react';
+import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useRef, useState } from 'react';
 import Fade from '@mui/material/Fade';
 import type { MenuItemProps } from '@mui/material/MenuItem';
 import MuiMenuItem from '@mui/material/MenuItem';
@@ -32,7 +32,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
     parentMenuClose,
     children,
     items,
-    endIcon: _,
+    endIcon: EndIconComponent,
     menuProps,
     ...menuItemProps
   } = props;
@@ -57,6 +57,24 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
     clearCloseTimer();
     setSubMenuAnchorEl(null);
   }, [clearCloseTimer]);
+
+  // CRITICAL FEATURE: This will ensure that all menus close simultaneously when an item is closed. Without this,
+  // when an item is clicked in the third- or deeper level menu, menus will close at slightly different times, 
+  // creating a weird staggered closing effect.
+  useEffect(closeSubMenuFasterThanItsParent, [menuProps.open, handleClose]);
+  function closeSubMenuFasterThanItsParent() {
+    if (!menuProps.open) {
+      handleClose();
+    }
+  }
+
+
+  useEffect(defensivelyCleanupTimersOnUnmount, [clearCloseTimer]);
+  function defensivelyCleanupTimersOnUnmount() {
+    return () => {
+      clearCloseTimer();
+    }
+  };
 
   const scheduleClose = useCallback(() => {
     clearCloseTimer();
@@ -101,11 +119,12 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       const {
         type: __,
         items: entryItems,
-        startIcon: NestedMenuItemStartIcon,
-        endIcon: NestedMenuItemEndIcon,
+        startIcon: EntryStartIcon,
+        endIcon: EntryEndIcon,
         label: entryLabel,
-        onClick,
+        onClick: entryOnClick,
         id,
+        ...entryMenuItemProps
       } = item;
       const entryId = id ?? `${menuItemId}-entry-${index}`;
       const entryKey = `nested-entry-${entryId}`;
@@ -117,27 +136,28 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
             key={entryKey}
             id={entryId}
             label={entryLabelValue}
-            startIcon={NestedMenuItemStartIcon}
-            endIcon={NestedMenuItemEndIcon}
+            startIcon={EntryStartIcon}
+            endIcon={EntryEndIcon}
             parentMenuClose={parentMenuClose}
             items={entryItems}
             menuProps={menuProps}
+            {...entryMenuItemProps}
           />
         );
       }
 
       const handleItemClick = (event: MouseEvent<HTMLLIElement>) => {
-        onClick?.(event);
+        entryOnClick?.(event);
         handleClose();
         parentMenuClose?.(event, "itemClick", entryId);
       };
 
       return (
-        <MuiMenuItem key={entryKey} onClick={handleItemClick}>
+        <MuiMenuItem key={entryKey} {...entryMenuItemProps} onClick={handleItemClick}>
           <MenuItemContent>
-            {NestedMenuItemStartIcon ? <NestedMenuItemStartIcon /> : null}
+            {EntryStartIcon ? <EntryStartIcon /> : null}
             <Typography sx={{ flex: 1 }}>{entryLabelValue}</Typography>
-            {NestedMenuItemEndIcon ? <NestedMenuItemEndIcon /> : null}
+            {EntryEndIcon ? <EntryEndIcon /> : null}
           </MenuItemContent>
         </MuiMenuItem>
       );
@@ -176,8 +196,8 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       >
         <MenuItemContent>
           {StartIconComponent ? <StartIconComponent /> : null}
-          <Typography sx={{ flex: 1 }}>{label}</Typography>
-          <ArrowRightIcon />
+          <Typography sx={{ flex: 1, fontFamily: 'inherit' }}>{label}</Typography>
+          {EndIconComponent ? <EndIconComponent /> : <ArrowRightIcon />}
         </MenuItemContent>
       </MuiMenuItem>
 

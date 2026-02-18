@@ -180,8 +180,8 @@ describe('Menu', () => {
     const { user, toggleButton, spies } = setupMenu();
     await user.click(toggleButton);
 
-    const nestedTrigger = await screen.findByRole('menuitem', { name: 'Web Clipboard' });
-    await user.hover(nestedTrigger);
+    const webClipboardTrigger = await screen.findByRole('menuitem', { name: 'Web Clipboard' });
+    await user.hover(webClipboardTrigger);
 
     const deepTrigger = await screen.findByRole('menuitem', { name: 'Deep Options' });
     await user.hover(deepTrigger);
@@ -190,6 +190,7 @@ describe('Menu', () => {
     await user.click(deepItem);
 
     expect(spies.deep).toHaveBeenCalledTimes(1);
+    expect(webClipboardTrigger).not.toHaveAttribute('aria-expanded');
     await waitFor(() => {
       expect(screen.queryByRole('menu', { name: 'Web Clipboard' })).not.toBeInTheDocument();
     });
