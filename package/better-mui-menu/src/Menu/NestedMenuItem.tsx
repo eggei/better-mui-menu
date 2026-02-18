@@ -1,5 +1,5 @@
 import type { FC, ReactNode, MouseEvent, KeyboardEvent } from 'react';
-import { Children, cloneElement, isValidElement, useCallback, useId, useRef, useState } from 'react';
+import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useRef, useState } from 'react';
 import Fade from '@mui/material/Fade';
 import type { MenuItemProps } from '@mui/material/MenuItem';
 import MuiMenuItem from '@mui/material/MenuItem';
@@ -57,6 +57,24 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
     clearCloseTimer();
     setSubMenuAnchorEl(null);
   }, [clearCloseTimer]);
+
+  // CRITICAL FEATURE: This will ensure that all menus close simultaneously when an item is closed. Without this,
+  // when an item is clicked in the third- or deeper level menu, menus will close at slightly different times, 
+  // creating a weird staggered closing effect.
+  useEffect(closeSubMenuFasterThanItsParent, [menuProps.open, handleClose]);
+  function closeSubMenuFasterThanItsParent() {
+    if (!menuProps.open) {
+      handleClose();
+    }
+  }
+
+
+  useEffect(defensivelyCleanupTimersOnUnmount, [clearCloseTimer]);
+  function defensivelyCleanupTimersOnUnmount() {
+    return () => {
+      clearCloseTimer();
+    }
+  };
 
   const scheduleClose = useCallback(() => {
     clearCloseTimer();
