@@ -1,6 +1,6 @@
 # better-mui-menu
 
-[![CI](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml/badge.svg)](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/better-mui-menu.svg?color=brightgreen)](https://www.npmjs.com/package/better-mui-menu) [![npm downloads](https://img.shields.io/npm/dt/better-mui-menu.svg?color=informational)](https://www.npmjs.com/package/better-mui-menu) [![License: MIT](https://img.shields.io/npm/l/better-mui-menu.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml/badge.svg)](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml) [![coverage](https://codecov.io/gh/eggei/better-mui-menu/graph/badge.svg)](https://codecov.io/gh/eggei/better-mui-menu) [![npm version](https://img.shields.io/npm/v/better-mui-menu.svg?color=brightgreen)](https://www.npmjs.com/package/better-mui-menu) [![npm downloads](https://img.shields.io/npm/dt/better-mui-menu.svg?color=informational)](https://www.npmjs.com/package/better-mui-menu) [![License: MIT](https://img.shields.io/npm/l/better-mui-menu.svg)](https://opensource.org/licenses/MIT)
 
 `better-mui-menu` is a lightweight drop-in for Material UI that keeps a normal `Menu` structure while adding nested menus and full keyboard accessibility so nothing breaks audits or expectations in an MUI app.
 
@@ -100,6 +100,7 @@ The library lives inside `package/better-mui-menu`.
 
 - `npm run dev` – rebuilds `src` into `dist` with `tsup --watch`.
 - `npm run build` – creates production bundles ready for publication.
-- `npm run test` – runs the Jest suite located at `src/Menu/Menu.test.tsx`.
+- `npm run test` – runs the Jest suite located at `src/**/*.test.{ts,tsx}`.
+- `npm run test:coverage` – runs tests with coverage and writes reports to `coverage/`.
 
 From the repository root you can use `npm run dev:lib` and `npm run dev:demo` together so the demo app consumes the rebuilt workspace link. Keep `npm run dev` (or `npm run build`) running before refreshing the demo because the Vite app imports the package via `file:`.
