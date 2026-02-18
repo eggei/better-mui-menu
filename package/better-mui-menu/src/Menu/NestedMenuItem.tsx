@@ -237,7 +237,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={transitionConfig.timeout}>
-            <Paper elevation={menuProps.elevation} {...(menuProps?.slotProps?.paper as PaperProps) || {}}>
+            <Paper elevation={menuProps.elevation} sx={{ overflow: 'auto' }} {...(menuProps?.slotProps?.paper as PaperProps) || {}}>
               <MenuList
                 id={subMenuId}
                 aria-labelledby={menuItemId}
