@@ -37,7 +37,7 @@ import { useState } from 'react'
 import Button from '@mui/material/Button'
 import Cloud from '@mui/icons-material/Cloud'
 import Save from '@mui/icons-material/Save'
-import Menu, { type MenuItem } from 'better-mui-menu'
+import { Menu, type MenuItem } from 'better-mui-menu'
 
 const menuItems: MenuItem[] = [
   {

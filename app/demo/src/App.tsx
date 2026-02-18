@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import Menu, { type MenuItem } from 'better-mui-menu'
+import { Menu, type MenuItem } from 'better-mui-menu'
 import { useState } from 'react'
 import {
   AccessibilityNewRounded,
