@@ -101,11 +101,12 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       const {
         type: __,
         items: entryItems,
-        startIcon: NestedMenuItemStartIcon,
-        endIcon: NestedMenuItemEndIcon,
+        startIcon: EntryStartIcon,
+        endIcon: EntryEndIcon,
         label: entryLabel,
-        onClick,
+        onClick: entryOnClick,
         id,
+        ...entryMenuItemProps
       } = item;
       const entryId = id ?? `${menuItemId}-entry-${index}`;
       const entryKey = `nested-entry-${entryId}`;
@@ -117,27 +118,28 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
             key={entryKey}
             id={entryId}
             label={entryLabelValue}
-            startIcon={NestedMenuItemStartIcon}
-            endIcon={NestedMenuItemEndIcon}
+            startIcon={EntryStartIcon}
+            endIcon={EntryEndIcon}
             parentMenuClose={parentMenuClose}
             items={entryItems}
             menuProps={menuProps}
+            {...entryMenuItemProps}
           />
         );
       }
 
       const handleItemClick = (event: MouseEvent<HTMLLIElement>) => {
-        onClick?.(event);
+        entryOnClick?.(event);
         handleClose();
         parentMenuClose?.(event, "itemClick", entryId);
       };
 
       return (
-        <MuiMenuItem key={entryKey} onClick={handleItemClick}>
+        <MuiMenuItem key={entryKey} {...entryMenuItemProps} onClick={handleItemClick}>
           <MenuItemContent>
-            {NestedMenuItemStartIcon ? <NestedMenuItemStartIcon /> : null}
+            {EntryStartIcon ? <EntryStartIcon /> : null}
             <Typography sx={{ flex: 1 }}>{entryLabelValue}</Typography>
-            {NestedMenuItemEndIcon ? <NestedMenuItemEndIcon /> : null}
+            {EntryEndIcon ? <EntryEndIcon /> : null}
           </MenuItemContent>
         </MuiMenuItem>
       );

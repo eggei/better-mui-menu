@@ -23,35 +23,47 @@ export function Menu({ items, elevation = DEFAULT_ELEVATION, ...rest }: Props) {
       return <Divider key={`divider-${index}`} />;
     }
 
-    const { type: _, id, label, ...nestedMenuItemProps } = item;
+    const {
+      type: _,
+      id,
+      label,
+      items: childItems,
+      onClick: itemOnClick,
+      startIcon: StartIcon,
+      endIcon: EndIcon,
+      ...muiMenuItemProps
+    } = item;
     const entryId = id ?? `${generatedMenuId}-entry-${index}`;
     const itemKey = `menu-item-id:${entryId}`;
     const displayLabel = label ?? entryId;
 
-    if (item.items && item.items.length > 0) {
+    if (childItems && childItems.length > 0) {
       return (
         <NestedMenuItem
           key={itemKey}
           id={entryId}
           label={displayLabel}
+          startIcon={StartIcon}
+          endIcon={EndIcon}
           parentMenuClose={menuProps.onClose}
           menuProps={menuProps}
-          {...nestedMenuItemProps}
+          items={childItems}
+          {...muiMenuItemProps}
         />
       );
     }
 
     const handleItemClick = (event: React.MouseEvent<HTMLLIElement>) => {
-      item.onClick?.(event);
+      itemOnClick?.(event);
       menuProps.onClose?.(event, "itemClick", entryId);
     };
 
     return (
-      <MuiMenuItem key={itemKey} onClick={handleItemClick} {...nestedMenuItemProps}>
+      <MuiMenuItem key={itemKey} {...muiMenuItemProps} onClick={handleItemClick}>
         <MenuItemContent>
-          {nestedMenuItemProps.startIcon ? <nestedMenuItemProps.startIcon /> : null}
+          {StartIcon ? <StartIcon /> : null}
           <Typography sx={{ flex: 1, fontFamily: 'inherit' }}>{displayLabel}</Typography>
-          {nestedMenuItemProps.endIcon ? <nestedMenuItemProps.endIcon /> : null}
+          {EndIcon ? <EndIcon /> : null}
         </MenuItemContent>
       </MuiMenuItem>
     );
