@@ -7,9 +7,10 @@ import Divider from '@mui/material/Divider';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import type { SvgIconComponent } from '@mui/icons-material';
 import type { MenuListProps, MenuProps, PaperProps } from '@mui/material';
-import { MenuList, Paper, Popper, Typography } from '@mui/material';
+import { MenuList, Paper, Popper } from '@mui/material';
 import type { MenuItem } from './types';
-import { CLOSE_DELAY, MenuItemContent, transitionConfig } from './common';
+import { MenuEntry } from './MenuEntry';
+import { CLOSE_DELAY, transitionConfig } from './common';
 import type { Props as BetterMenuProps } from '.';
 
 type NestedMenuItemProps = MenuItemProps & {
@@ -153,13 +154,14 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       };
 
       return (
-        <MuiMenuItem key={entryKey} {...entryMenuItemProps} onClick={handleItemClick}>
-          <MenuItemContent>
-            {EntryStartIcon ? <EntryStartIcon /> : null}
-            <Typography sx={{ flex: 1 }}>{entryLabelValue}</Typography>
-            {EntryEndIcon ? <EntryEndIcon /> : null}
-          </MenuItemContent>
-        </MuiMenuItem>
+        <MenuEntry
+          key={entryKey}
+          label={entryLabelValue}
+          startIcon={EntryStartIcon}
+          endIcon={EntryEndIcon}
+          {...entryMenuItemProps}
+          onClick={handleItemClick}
+        />
       );
     });
   };
@@ -168,7 +170,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
 
   return (
     <>
-      <MuiMenuItem
+      <MenuEntry
         data-testid={`${menuItemId}-trigger`}
         id={menuItemId}
         ref={menuItemRef}
@@ -192,14 +194,11 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
         aria-haspopup='menu'
         aria-controls={subMenuId}
         aria-expanded={open ? 'true' : undefined}
+        label={label}
+        startIcon={StartIconComponent}
+        endIcon={EndIconComponent ?? ArrowRightIcon}
         {...menuItemProps}
-      >
-        <MenuItemContent>
-          {StartIconComponent ? <StartIconComponent /> : null}
-          <Typography sx={{ flex: 1, fontFamily: 'inherit' }}>{label}</Typography>
-          {EndIconComponent ? <EndIconComponent /> : <ArrowRightIcon />}
-        </MenuItemContent>
-      </MuiMenuItem>
+      />
 
       {/**
        * CRITICAL FEATURE: Menu over Menu fails with focus management and keyboard navigations. 

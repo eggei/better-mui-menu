@@ -1,12 +1,11 @@
 import type { MenuProps } from '@mui/material/Menu';
 import MuiMenu from '@mui/material/Menu';
 import Divider from '@mui/material/Divider';
-import MuiMenuItem from '@mui/material/MenuItem';
 import React, { useId } from 'react';
-import { Typography } from '@mui/material';
 import { NestedMenuItem } from './NestedMenuItem';
+import { MenuEntry } from './MenuEntry';
 import type { MenuItem } from './types';
-import { DEFAULT_ELEVATION, MenuItemContent, transitionConfig } from './common';
+import { DEFAULT_ELEVATION, transitionConfig } from './common';
 
 export type Props = {
   items: MenuItem[];
@@ -59,13 +58,14 @@ export function Menu({ items, elevation = DEFAULT_ELEVATION, ...rest }: Props) {
     };
 
     return (
-      <MuiMenuItem key={itemKey} {...muiMenuItemProps} onClick={handleItemClick}>
-        <MenuItemContent>
-          {StartIcon ? <StartIcon /> : null}
-          <Typography sx={{ flex: 1, fontFamily: 'inherit' }}>{displayLabel}</Typography>
-          {EndIcon ? <EndIcon /> : null}
-        </MenuItemContent>
-      </MuiMenuItem>
+      <MenuEntry
+        key={itemKey}
+        label={displayLabel}
+        startIcon={StartIcon}
+        endIcon={EndIcon}
+        {...muiMenuItemProps}
+        onClick={handleItemClick}
+      />
     );
   });
 
