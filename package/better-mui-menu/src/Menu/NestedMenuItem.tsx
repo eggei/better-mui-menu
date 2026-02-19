@@ -1,13 +1,9 @@
 import type { FC, ReactNode, MouseEvent, KeyboardEvent } from 'react';
 import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useRef, useState } from 'react';
-import Fade from '@mui/material/Fade';
-import type { MenuItemProps } from '@mui/material/MenuItem';
-import MuiMenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import type { SvgIconComponent } from '@mui/icons-material';
-import type { MenuListProps, MenuProps, PaperProps } from '@mui/material';
-import { MenuList, Paper, Popper } from '@mui/material';
+import type { MenuItemProps, MenuListProps, MenuProps, PaperProps } from '@mui/material';
+import { Divider, Fade, MenuItem as MuiMenuItem, MenuList, Paper, Popper } from '@mui/material';
 import type { MenuItem } from './types';
 import { MenuEntry } from './MenuEntry';
 import { CLOSE_DELAY, transitionConfig } from './common';

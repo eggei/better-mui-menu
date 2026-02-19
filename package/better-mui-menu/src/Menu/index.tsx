@@ -1,6 +1,5 @@
-import type { MenuProps } from '@mui/material/Menu';
-import MuiMenu from '@mui/material/Menu';
-import Divider from '@mui/material/Divider';
+import type { MenuProps } from '@mui/material';
+import { Divider, Menu as MuiMenu } from '@mui/material';
 import React, { useId } from 'react';
 import { NestedMenuItem } from './NestedMenuItem';
 import { MenuEntry } from './MenuEntry';

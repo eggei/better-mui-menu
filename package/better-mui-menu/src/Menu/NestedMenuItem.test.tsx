@@ -4,8 +4,8 @@
 /// <reference types="@testing-library/jest-dom" />
 import type { ReactNode } from 'react';
 import { createEvent, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import MuiMenuItem from '@mui/material/MenuItem';
-import type { MenuProps } from '@mui/material/Menu';
+import { MenuItem as MuiMenuItem } from '@mui/material';
+import type { MenuProps } from '@mui/material';
 import type { MenuItem } from './types';
 import { NestedMenuItem } from './NestedMenuItem';
 

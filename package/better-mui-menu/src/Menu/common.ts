@@ -1,5 +1,4 @@
-import { Stack, styled } from '@mui/material';
-import Fade from '@mui/material/Fade';
+import { Fade, Stack, styled } from '@mui/material';
 
 export const CLOSE_DELAY = 50;
 export const transitionConfig = {

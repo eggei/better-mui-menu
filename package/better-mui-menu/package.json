@@ -30,8 +30,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "prepublishOnly": "npm --prefix ../.. run test && npm run build",
-    "test": "jest",
-    "test:coverage": "jest --coverage --coverageReporters=json-summary --coverageReporters=lcov --coverageReporters=text --coverageReporters=clover"
+    "test": "npm run build && jest",
+    "test:coverage": "npm run build && jest --coverage --coverageReporters=json-summary --coverageReporters=lcov --coverageReporters=text --coverageReporters=clover"
   },
   "keywords": [
     "mui",

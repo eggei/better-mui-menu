@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import { forwardRef } from 'react';
-import type { MenuItemProps } from '@mui/material/MenuItem';
-import MuiMenuItem from '@mui/material/MenuItem';
-import { Typography } from '@mui/material';
+import type { MenuItemProps } from '@mui/material';
+import { MenuItem as MuiMenuItem, Typography } from '@mui/material';
 import type { SvgIconComponent } from '@mui/icons-material';
 import { MenuItemContent } from './common';
 

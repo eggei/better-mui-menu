@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
+import type { MenuItemProps as MuiMenuItemProps } from '@mui/material';
 import type { SvgIconComponent } from '@mui/icons-material';
 
 export type MenuItemBase =
