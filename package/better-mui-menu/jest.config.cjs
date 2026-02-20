@@ -3,6 +3,11 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.{ts,tsx}',
+    '!<rootDir>/src/**/*.test.{ts,tsx}'
+  ],
+  coveragePathIgnorePatterns: ['<rootDir>/dist/'],
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy'
   },
