@@ -1,6 +1,6 @@
 # better-mui-menu
 
-[![CI](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml/badge.svg)](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml) [![coverage](https://codecov.io/gh/eggei/better-mui-menu/graph/badge.svg)](https://codecov.io/gh/eggei/better-mui-menu) [![npm version](https://img.shields.io/npm/v/better-mui-menu.svg?color=brightgreen)](https://www.npmjs.com/package/better-mui-menu) [![npm downloads](https://img.shields.io/npm/dt/better-mui-menu.svg?color=informational)](https://www.npmjs.com/package/better-mui-menu) [![License: MIT](https://img.shields.io/npm/l/better-mui-menu.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml/badge.svg)](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml) [![Security](https://github.com/eggei/better-mui-menu/actions/workflows/security.yml/badge.svg)](https://github.com/eggei/better-mui-menu/actions/workflows/security.yml) [![coverage](https://codecov.io/gh/eggei/better-mui-menu/branch/main/graph/badge.svg)](https://codecov.io/gh/eggei/better-mui-menu) [![npm version](https://img.shields.io/npm/v/better-mui-menu.svg?color=brightgreen)](https://www.npmjs.com/package/better-mui-menu) [![npm downloads](https://img.shields.io/npm/dt/better-mui-menu.svg?color=informational)](https://www.npmjs.com/package/better-mui-menu) [![License: MIT](https://img.shields.io/npm/l/better-mui-menu.svg)](https://opensource.org/licenses/MIT)
 
 `better-mui-menu` is a lightweight drop-in for Material UI that keeps a normal `Menu` structure while adding nested menus and full keyboard accessibility so nothing breaks audits or expectations in an MUI app.
 
@@ -12,7 +12,7 @@ Try it:
 
 [![Edit better-mui-menu-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/9j2z7n)
 
-![Menu demo preview](./app/demo/assets/bmm-demo.gif)
+![Menu demo preview](../../app/demo/assets/bmm-demo.gif)
 
 ## Features
 
