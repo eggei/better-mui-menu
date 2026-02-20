@@ -12,7 +12,7 @@ Try it:
 
 [![Edit better-mui-menu-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/9j2z7n)
 
-![Menu demo preview](../../app/demo/assets/bmm-demo.gif)
+![Menu demo preview](./app/demo/assets/bmm-demo.gif)
 
 ## Features
 
