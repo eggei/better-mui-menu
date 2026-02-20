@@ -30,7 +30,7 @@ jobs:
         if: always()
         uses: codecov/codecov-action@v5
         with:
-          files: ./coverage/lcov.info
+          files: ./package/better-mui-menu/coverage/lcov.info
           root_dir: ./package/better-mui-menu
           disable_search: true
           flags: better-mui-menu
