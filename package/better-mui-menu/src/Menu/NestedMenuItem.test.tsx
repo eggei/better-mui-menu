@@ -117,4 +117,28 @@ describe('NestedMenuItem', () => {
 
     expect(screen.getByRole('menu', { name: 'Flagged Parent' })).toBeInTheDocument();
   });
+
+  it('ignores ArrowLeft when the event target is outside the submenu', async () => {
+    const { id } = renderNestedMenuItem({
+      id: 'outside-target-parent',
+      label: 'Outside Target Parent',
+      items: [{ id: 'leaf-item', label: 'Leaf item' }],
+    });
+
+    const submenuRoot = await screen.findByTestId(`${id}-submenu`);
+    const submenuMenuList = await screen.findByRole('menu', { name: 'Outside Target Parent' });
+    const nativeContains = Node.prototype.contains;
+    const containsSpy = jest.spyOn(Node.prototype, 'contains').mockImplementation(function contains(this: Node, other: Node | null) {
+      if (this === submenuRoot) return false;
+      return nativeContains.call(this, other);
+    });
+
+    try {
+      fireEvent.keyDown(submenuMenuList, { key: 'ArrowLeft' });
+    } finally {
+      containsSpy.mockRestore();
+    }
+
+    expect(screen.getByRole('menu', { name: 'Outside Target Parent' })).toBeInTheDocument();
+  });
 });

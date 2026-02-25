@@ -94,6 +94,34 @@ const setupMenu = () => {
 };
 
 describe('Menu', () => {
+  it('renders root-level divider entries from data-driven items', async () => {
+    const user = userEvent.setup();
+    const items: MenuItem[] = [
+      { id: 'copy', label: 'Copy', startIcon: ContentCopy },
+      { type: 'divider' },
+      { id: 'paste', label: 'Paste', startIcon: ContentPaste },
+    ];
+
+    render(<MenuWithTrigger items={items} />);
+    const toggleButton = screen.getByRole('button', { name: /menu actions/i });
+    await user.click(toggleButton);
+
+    await screen.findByRole('menuitem', { name: 'Copy' });
+    expect(screen.getByRole('separator')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: 'Paste' })).toBeInTheDocument();
+  });
+
+  it('falls back to the item id when a root item label is omitted', async () => {
+    const user = userEvent.setup();
+    const items: MenuItem[] = [{ id: 'fallback-id', label: null, startIcon: ContentCopy }];
+
+    render(<MenuWithTrigger items={items} />);
+    const toggleButton = screen.getByRole('button', { name: /menu actions/i });
+    await user.click(toggleButton);
+
+    expect(await screen.findByRole('menuitem', { name: 'fallback-id' })).toBeInTheDocument();
+  });
+
   it('closes the root menu after selecting a leaf action', async () => {
     const { user, toggleButton, spies } = setupMenu();
     await user.click(toggleButton);
