@@ -3,12 +3,13 @@ import {
   Button,
   CssBaseline,
   IconButton,
+  Link,
   Stack,
   Typography,
-} from '@mui/material'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Menu, type MenuItem } from 'better-mui-menu'
-import { useState } from 'react'
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Menu, type MenuItem } from "better-mui-menu";
+import { useState } from "react";
 import {
   AccessibilityNewRounded,
   ArrowForward,
@@ -18,83 +19,94 @@ import {
   DeleteOutlined,
   Google,
   Storage,
-} from '@mui/icons-material'
-import { blue, blueGrey } from '@mui/material/colors'
+} from "@mui/icons-material";
+import { blue, blueGrey } from "@mui/material/colors";
 
-const theme = createTheme()
+const theme = createTheme();
 
 const menuItems: MenuItem[] = [
   {
-    label: 'Copy',
+    label: "Copy",
     startIcon: ContentCopy,
   },
   {
-    label: 'Paste',
+    label: "Paste",
     startIcon: ContentPaste,
-    'aria-label': 'Paste',
-    'data-testid': 'paste-menu-item',
+    "aria-label": "Paste",
+    "data-testid": "paste-menu-item",
   },
   {
-    label: 'Colored via props',
-    sx: { color: 'error.main' },
-    'aria-label': 'Delete',
+    label: "Colored via props",
+    sx: { color: "error.main" },
+    "aria-label": "Delete",
     startIcon: DeleteOutlined,
   },
   {
     label: (
-      <Stack width='fit-content'>
+      <Stack width="fit-content">
         Web Clipboard
-        <Typography variant='caption' color='text.secondary' sx={{ textWrap: 'auto', maxWidth: 200 }}>
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ textWrap: "auto", maxWidth: 200 }}
+        >
           This is an example of a menu item with a secondary text.
         </Typography>
-      </Stack >
+      </Stack>
     ),
     startIcon: CloudOutlined,
     items: [
       {
-        label: 'Google Cloud',
+        label: "Google Cloud",
         startIcon: Google,
       },
       {
-        label: 'Azure Clipboard',
+        label: "Azure Clipboard",
         startIcon: CloudOutlined,
       },
       {
-        label: 'Local Storage',
+        label: "Local Storage",
         startIcon: Storage,
       },
     ],
   },
   {
-    type: 'divider',
+    type: "divider",
   },
   {
-    label: 'Using custom icons and styles',
-    startIcon: <AccessibilityNewRounded color='primary' sx={{ backgroundColor: blue[50], borderRadius: '50%' }} />,
+    label: "Using custom icons and styles",
+    startIcon: (
+      <AccessibilityNewRounded
+        color="primary"
+        sx={{ backgroundColor: blue[50], borderRadius: "50%" }}
+      />
+    ),
     endIcon: ArrowForward,
-    sx: { fontFamily: 'cursive' },
+    sx: { fontFamily: "cursive" },
     items: [
       {
-        label: 'Google Cloud',
+        label: "Google Cloud",
         startIcon: Google,
       },
       {
-        label: 'Azure Clipboard',
+        label: "Azure Clipboard",
         startIcon: CloudOutlined,
         items: [
           {
-            label: 'Google Cloud',
+            label: "Google Cloud",
             startIcon: Google,
           },
           {
-            label: 'Azure Clipboard',
+            label: "Azure Clipboard",
             startIcon: CloudOutlined,
           },
           {
             label: (
               <Stack>
                 Local Storage
-                <Typography variant="caption" color='text.secondary'>Save your clipboard to your browser's local storage.</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Save your clipboard to your browser's local storage.
+                </Typography>
               </Stack>
             ),
             startIcon: Storage,
@@ -102,7 +114,7 @@ const menuItems: MenuItem[] = [
         ],
       },
       {
-        label: 'Local Storage',
+        label: "Local Storage",
         startIcon: Storage,
       },
     ],
@@ -120,8 +132,8 @@ const simpleUsageSnippet = String.raw`const items = [
   items={items}
   anchorRef={anchorRef}
   open={Boolean(anchorRef)}
-  onClose={() => {}}
-/>`
+  onClose={handleClose}
+/>`;
 
 function App() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -132,93 +144,113 @@ function App() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Stack p={4} maxWidth={640} gap={2}>
+      <Stack p={4} maxWidth={640} gap={2} margin="0 auto">
         <Box>
-          <Typography variant='h5' gutterBottom>
-            Better MUI Material UI Menu
+          <Typography variant="h5" gutterBottom>
+            better-mui-menu
           </Typography>
 
-          <Typography variant='subtitle1' gutterBottom>
-            A plain material UI menu with added features.
+          <Typography variant="subtitle1" gutterBottom>
+            A data-driven MUI Menu implementation with submenu, keyboard
+            navigation. Created accessibility in mind.
           </Typography>
 
-          <Stack direction='row' alignItems='center' gap={1}>
-            <Typography variant='caption' sx={{ p: 1, backgroundColor: blueGrey[100], color: blueGrey[800], borderRadius: 1 }}>
+          <Stack direction="row" alignItems="center" gap={1}>
+            <Typography
+              variant="caption"
+              sx={{
+                p: 1,
+                backgroundColor: blueGrey[100],
+                color: blueGrey[800],
+                borderRadius: 1,
+              }}
+            >
               npm i better-mui-menu
             </Typography>
             {/* Add a copy text button with a copy icon in MUI icon button */}
-            <IconButton size='small' aria-label="copy" onClick={() => { navigator.clipboard.writeText('npm install better-mui-menu') }}>
+            <IconButton
+              size="small"
+              aria-label="copy"
+              onClick={() => {
+                navigator.clipboard.writeText("npm install better-mui-menu");
+              }}
+            >
               <ContentCopy />
             </IconButton>
           </Stack>
         </Box>
+
         <Box>
-          <Typography variant='h6' gutterBottom>Who should use?</Typography>
-          <Typography variant='body2' gutterBottom>
-            You realized your MUI menu doesn't support keyboard navigation, hence the bad accessibility score. <br /><br />You need to improve quickly without changing your design system. And you realized it is pretty hard, and even AI isn't very helpful.
+          <Typography variant="h6" gutterBottom>
+            Try it out
           </Typography>
-        </Box>
-        <Box>
-          <Typography variant='h6' gutterBottom>Try it out</Typography>
           <Stack sx={{ borderRadius: 1, p: 2, backgroundColor: blueGrey[100] }}>
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Box
+              sx={{ width: "100%", display: "flex", justifyContent: "center" }}
+            >
               <Button
-                id='icon-menu-button'
-                aria-controls={anchorEl ? 'icon-menu' : undefined}
-                aria-haspopup='true'
-                aria-expanded={anchorEl ? 'true' : undefined}
+                id="icon-menu-button"
+                aria-controls={anchorEl ? "icon-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={anchorEl ? "true" : undefined}
                 onClick={handleClick}
-                variant='contained'
+                variant="contained"
                 startIcon={<AccessibilityNewRounded />}
-                color='inherit'
+                color="inherit"
               >
                 Menu
               </Button>
 
-              <Menu items={menuItems} anchorEl={anchorEl} onClose={handleClose} open={Boolean(anchorEl)} />
+              <Menu
+                items={menuItems}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                open={Boolean(anchorEl)}
+                sx={{ mt: 1 }}
+              />
             </Box>
           </Stack>
+
+          <Typography variant="body2" gutterBottom alignSelf='flex-end'>
+            View demo source for items data structure{' '}
+            <Link
+              href="https://github.com/eggei/better-mui-menu/blob/main/app/demo/src/App.tsx"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here
+            </Link>
+            .
+          </Typography>
         </Box>
         <Box>
-          <Typography variant='h6' gutterBottom>Usage</Typography>
+          <Typography variant="h6" gutterBottom>
+            Simple Usage
+          </Typography>
           <Box
-            component='pre'
+            component="pre"
             sx={{
-              fontFamily: 'Monospace',
+              fontFamily: "Monospace",
               backgroundColor: blueGrey[100],
               color: blueGrey[800],
               borderRadius: 1,
               p: 1,
               mt: 1,
-              fontSize: '0.85rem',
+              fontSize: "0.85rem",
               lineHeight: 1.5,
-              overflow: 'auto',
+              overflow: "auto",
             }}
           >
             {simpleUsageSnippet}
           </Box>
         </Box>
-        <Box>
-          <Typography variant='h6' gutterBottom>Why?</Typography>
-          <Typography variant='body2' gutterBottom>
-            I realized that it is a big pain creating a menu with nested menus, and making it keyboard accessible for an accessible product.
-          </Typography>
-          <Typography variant='body2' gutterBottom>
-            I wasn't liking the -very few- existing solutions out there. They were either not handling things properly or too much opinionated interface that I needed to learn about.
-          </Typography>
-          <Typography variant='body2' gutterBottom>
-            So, I decided to share this menu component which has no extra styling, nor so much new interface to learn about. Just drop it in your MUI project, it will pick up your theme,
-            and use it with ease knowing that it is accessible and works well.
-          </Typography>
-        </Box>
-
-
-      </Stack>
-    </ThemeProvider>
-  )
+      </Stack >
+    </ThemeProvider >
+  );
 }
 
-export default App
+export default App;
