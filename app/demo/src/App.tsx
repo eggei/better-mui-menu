@@ -41,7 +41,14 @@ const menuItems: MenuItem[] = [
     startIcon: DeleteOutlined,
   },
   {
-    label: 'Web Clipboard',
+    label: (
+      <Stack width='fit-content'>
+        Web Clipboard
+        <Typography variant='caption' color='text.secondary' sx={{ textWrap: 'auto', maxWidth: 200 }}>
+          This is an example of a menu item with a secondary text.
+        </Typography>
+      </Stack >
+    ),
     startIcon: CloudOutlined,
     items: [
       {
@@ -84,7 +91,12 @@ const menuItems: MenuItem[] = [
             startIcon: CloudOutlined,
           },
           {
-            label: 'Local Storage',
+            label: (
+              <Stack>
+                Local Storage
+                <Typography variant="caption" color='text.secondary'>Save your clipboard to your browser's local storage.</Typography>
+              </Stack>
+            ),
             startIcon: Storage,
           },
         ],
