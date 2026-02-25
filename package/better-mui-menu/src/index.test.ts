@@ -27,4 +27,13 @@ describe('package barrel exports', () => {
     const typeExportIsStable: MenuItemTypeExportIsStable = true;
     expect(typeExportIsStable).toBe(true);
   });
+
+  it('allows data-* attributes on MenuItem type', () => {
+    const menuItem: BarrelMenuItem = {
+      label: 'With data attribute',
+      'data-testid': 'menu-item-test-id'
+    };
+
+    expect(menuItem['data-testid']).toBe('menu-item-test-id');
+  });
 });
