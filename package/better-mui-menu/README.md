@@ -53,7 +53,7 @@ const menuItems: MenuItem[] = [
   { type: 'divider' },
   {
     label: 'Cloud actions',
-    startIcon: Cloud,
+    startIcon: <Cloud fontSize='small' sx={{ ml: 0.5 }} />,
     items: [
       { label: 'Upload', onClick: () => console.log('Upload') },
       { label: 'Download', onClick: () => console.log('Download') },
@@ -87,7 +87,7 @@ export function FileMenu() {
 - `type?: 'item' | 'divider'` – render a `Divider` when `'divider'` is supplied.
 - `id?: string` – optional stable ID for ARIA attributes; one is generated automatically otherwise.
 - `label: ReactNode` – the label shown in the menu row.
-- `startIcon` / `endIcon` – pass any `SvgIconComponent` to display icons consistently with Material UI.
+- `startIcon` / `endIcon` – pass either a `SvgIconComponent` (for example `Save`) or a JSX element (for example `<Save fontSize='large' sx={{ ml: 0.5 }} />`).
 - `items?: MenuItem[]` – nested entries that render as submenus.
 - `onClick?: MenuItemProps['onClick']` – leaves bubble clicks and close the menu stack so the consumer can handle the action.
 

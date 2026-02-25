@@ -27,6 +27,22 @@ describe('MenuEntry', () => {
     expect(screen.getByTestId('end-icon')).toBeInTheDocument();
   });
 
+  it('renders JSX icon elements with custom props', () => {
+    render(
+      <MenuEntry
+        label='Copy'
+        startIcon={<svg data-testid='start-icon-element' data-size='large' style={{ marginLeft: 4 }} />}
+        endIcon={<svg data-testid='end-icon-element' aria-label='end icon' />}
+      />
+    );
+
+    const startIconElement = screen.getByTestId('start-icon-element');
+    const endIconElement = screen.getByTestId('end-icon-element');
+    expect(startIconElement).toHaveAttribute('data-size', 'large');
+    expect(startIconElement).toHaveStyle({ marginLeft: '4px' });
+    expect(endIconElement).toHaveAttribute('aria-label', 'end icon');
+  });
+
   it('forwards ref to the underlying li element', () => {
     const ref = createRef<HTMLLIElement>();
 

@@ -1,6 +1,8 @@
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { MenuItemProps as MuiMenuItemProps } from '@mui/material';
 import type { SvgIconComponent } from '@mui/icons-material';
+
+export type MenuIcon = SvgIconComponent | ReactElement;
 
 export type MenuItemBase =
   | { type: 'divider' }
@@ -8,8 +10,8 @@ export type MenuItemBase =
       type?: 'item';
       id?: string;
       label: ReactNode;
-      startIcon?: SvgIconComponent;
-      endIcon?: SvgIconComponent;
+      startIcon?: MenuIcon;
+      endIcon?: MenuIcon;
       items?: MenuItem[];
     };
 

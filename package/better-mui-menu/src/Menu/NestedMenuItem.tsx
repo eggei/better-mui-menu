@@ -1,18 +1,17 @@
 import type { FC, ReactNode, MouseEvent, KeyboardEvent } from 'react';
 import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useRef, useState } from 'react';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import type { SvgIconComponent } from '@mui/icons-material';
 import type { MenuItemProps, MenuListProps, MenuProps, PaperProps } from '@mui/material';
 import { Divider, Fade, MenuItem as MuiMenuItem, MenuList, Paper, Popper } from '@mui/material';
-import type { MenuItem } from './types';
+import type { MenuIcon, MenuItem } from './types';
 import { MenuEntry } from './MenuEntry';
 import { CLOSE_DELAY, transitionConfig } from './common';
 import type { Props as BetterMenuProps } from '.';
 
 type NestedMenuItemProps = MenuItemProps & {
   label: ReactNode;
-  startIcon?: SvgIconComponent;
-  endIcon?: SvgIconComponent;
+  startIcon?: MenuIcon;
+  endIcon?: MenuIcon;
   parentMenuClose: BetterMenuProps['onClose'];
   children?: ReactNode;
   items?: MenuItem[];
