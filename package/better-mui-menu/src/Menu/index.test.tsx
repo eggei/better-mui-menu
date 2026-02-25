@@ -111,6 +111,43 @@ describe('Menu', () => {
     expect(screen.getByRole('menuitem', { name: 'Paste' })).toBeInTheDocument();
   });
 
+  it('accepts JSX icon elements with custom props in root and nested items', async () => {
+    const user = userEvent.setup();
+    const items: MenuItem[] = [
+      {
+        id: 'copy',
+        label: 'Copy',
+        startIcon: <ContentCopy data-testid='copy-icon-jsx' fontSize='large' sx={{ ml: 0.5 }} />,
+      },
+      {
+        id: 'more',
+        label: 'More',
+        startIcon: <Cloud data-testid='more-icon-jsx' color='primary' />,
+        items: [
+          {
+            id: 'nested-paste',
+            label: 'Nested Paste',
+            startIcon: <ContentPaste data-testid='nested-paste-icon-jsx' style={{ marginLeft: 4 }} />,
+          },
+        ],
+      },
+    ];
+
+    render(<MenuWithTrigger items={items} />);
+    const toggleButton = screen.getByRole('button', { name: /menu actions/i });
+    await user.click(toggleButton);
+
+    expect(await screen.findByRole('menuitem', { name: 'Copy' })).toBeInTheDocument();
+    expect(screen.getByTestId('copy-icon-jsx')).toBeInTheDocument();
+    expect(screen.getByTestId('more-icon-jsx')).toBeInTheDocument();
+
+    const moreTrigger = screen.getByRole('menuitem', { name: 'More' });
+    await user.hover(moreTrigger);
+
+    expect(await screen.findByRole('menuitem', { name: 'Nested Paste' })).toBeInTheDocument();
+    expect(screen.getByTestId('nested-paste-icon-jsx')).toHaveStyle({ marginLeft: '4px' });
+  });
+
   it('falls back to the item id when a root item label is omitted', async () => {
     const user = userEvent.setup();
     const items: MenuItem[] = [{ id: 'fallback-id', label: null, startIcon: ContentCopy }];

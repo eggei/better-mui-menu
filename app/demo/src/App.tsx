@@ -19,7 +19,7 @@ import {
   Google,
   Storage,
 } from '@mui/icons-material'
-import { blueGrey } from '@mui/material/colors'
+import { blue, blueGrey } from '@mui/material/colors'
 
 const theme = createTheme()
 
@@ -33,8 +33,9 @@ const menuItems: MenuItem[] = [
     startIcon: ContentPaste,
   },
   {
-    label: 'Delete',
+    label: 'Colored via props',
     sx: { color: 'error.main' },
+    'aria-label': 'Delete',
     startIcon: DeleteOutlined,
   },
   {
@@ -44,24 +45,6 @@ const menuItems: MenuItem[] = [
       {
         label: 'Google Cloud',
         startIcon: Google,
-      },
-      {
-        label: 'Web Clipboard',
-        startIcon: CloudOutlined,
-        items: [
-          {
-            label: 'Google Cloud',
-            startIcon: Google,
-          },
-          {
-            label: 'Azure Clipboard',
-            startIcon: CloudOutlined,
-          },
-          {
-            label: 'Local Storage',
-            startIcon: Storage,
-          },
-        ],
       },
       {
         label: 'Azure Clipboard',
@@ -77,8 +60,8 @@ const menuItems: MenuItem[] = [
     type: 'divider',
   },
   {
-    label: 'Accessibility',
-    startIcon: AccessibilityNewRounded,
+    label: 'Using custom icons and styles',
+    startIcon: <AccessibilityNewRounded color='primary' sx={{ backgroundColor: blue[50], borderRadius: '50%' }} />,
     endIcon: ArrowForward,
     sx: { fontFamily: 'cursive' },
     items: [
@@ -89,6 +72,20 @@ const menuItems: MenuItem[] = [
       {
         label: 'Azure Clipboard',
         startIcon: CloudOutlined,
+        items: [
+          {
+            label: 'Google Cloud',
+            startIcon: Google,
+          },
+          {
+            label: 'Azure Clipboard',
+            startIcon: CloudOutlined,
+          },
+          {
+            label: 'Local Storage',
+            startIcon: Storage,
+          },
+        ],
       },
       {
         label: 'Local Storage',

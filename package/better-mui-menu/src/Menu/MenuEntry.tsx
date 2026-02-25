@@ -1,26 +1,33 @@
 import type { ReactNode } from 'react';
-import { forwardRef } from 'react';
+import { forwardRef, isValidElement } from 'react';
 import type { MenuItemProps } from '@mui/material';
 import { MenuItem as MuiMenuItem, Typography } from '@mui/material';
-import type { SvgIconComponent } from '@mui/icons-material';
 import { MenuItemContent } from './common';
+import type { MenuIcon } from './types';
 
 type MenuEntryProps = Omit<MenuItemProps, 'children'> & {
   label: ReactNode;
-  startIcon?: SvgIconComponent;
-  endIcon?: SvgIconComponent;
+  startIcon?: MenuIcon;
+  endIcon?: MenuIcon;
+};
+
+const renderMenuIcon = (icon?: MenuIcon) => {
+  if (!icon) return null;
+  if (isValidElement(icon)) return icon;
+  const IconComponent = icon;
+  return <IconComponent />;
 };
 
 export const MenuEntry = forwardRef<HTMLLIElement, MenuEntryProps>(function MenuEntry(
-  { label, startIcon: StartIcon, endIcon: EndIcon, onClick, ...muiMenuItemProps },
+  { label, startIcon, endIcon, onClick, ...muiMenuItemProps },
   ref
 ) {
   return (
     <MuiMenuItem ref={ref} {...muiMenuItemProps} onClick={onClick}>
       <MenuItemContent>
-        {StartIcon ? <StartIcon /> : null}
+        {renderMenuIcon(startIcon)}
         <Typography sx={{ flex: 1, fontFamily: 'inherit' }}>{label}</Typography>
-        {EndIcon ? <EndIcon /> : null}
+        {renderMenuIcon(endIcon)}
       </MenuItemContent>
     </MuiMenuItem>
   );
