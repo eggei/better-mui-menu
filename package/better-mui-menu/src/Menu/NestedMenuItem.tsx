@@ -257,6 +257,7 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
                     if (!subMenuRef.current?.contains(e.target as Node)) {
                       // confirm the event’s target is still inside this submenu;
                       // if the keypress originated elsewhere, we don’t continue so other menus can handle it
+                      // i.e. Pressing ArrowLeft in a nested submenu should only close that submenu, not all parent submenus.
                       return;
                     }
                     // Mark this event as handled to prevent parent menus from also processing it
