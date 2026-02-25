@@ -43,6 +43,15 @@ describe('MenuEntry', () => {
     expect(endIconElement).toHaveAttribute('aria-label', 'end icon');
   });
 
+  it('wraps JSX labels with a span typography container', () => {
+    // Otherwise, MUI will throw errors complaining about rendering other elements under p tag is invalid.
+    render(<MenuEntry label={<p data-testid='jsx-label'>Copy</p>} />);
+
+    const labelNode = screen.getByTestId('jsx-label');
+    expect(labelNode.parentElement?.tagName).toBe('SPAN');
+    expect(screen.getByRole('menuitem', { name: 'Copy' })).toBeInTheDocument();
+  });
+
   it('forwards ref to the underlying li element', () => {
     const ref = createRef<HTMLLIElement>();
 
