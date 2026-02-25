@@ -25,8 +25,12 @@ export const MenuEntry = forwardRef<HTMLLIElement, MenuEntryProps>(function Menu
   return (
     <MuiMenuItem ref={ref} {...muiMenuItemProps} onClick={onClick}>
       <MenuItemContent>
-        {renderMenuIcon(startIcon)}
-        <Typography sx={{ flex: 1, fontFamily: 'inherit' }}>{label}</Typography>
+        <span style={{ alignSelf: 'flex-start', height: '100%', alignItems: 'center', display: 'flex' }}>
+          {renderMenuIcon(startIcon)}
+        </span>
+        <Typography component='span' sx={{ flex: 1, fontFamily: 'inherit' }}>
+          {label}
+        </Typography>
         {renderMenuIcon(endIcon)}
       </MenuItemContent>
     </MuiMenuItem>
