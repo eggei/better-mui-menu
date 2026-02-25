@@ -15,4 +15,10 @@ export type MenuItemBase =
       items?: MenuItem[];
     };
 
-export type MenuItem = MenuItemBase & Omit<MuiMenuItemProps, 'children'>;
+type DataAttributes = {
+  // TS accepts data-* attributes in JSX, but object literals (our data-driven MenuItem[] config)
+  // require explicit keys. This mapped type enables data-* props like data-testid on menu items.
+  [K in `data-${string}`]?: string | number | boolean | undefined;
+};
+
+export type MenuItem = MenuItemBase & Omit<MuiMenuItemProps, 'children'> & DataAttributes;

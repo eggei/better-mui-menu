@@ -31,6 +31,8 @@ const menuItems: MenuItem[] = [
   {
     label: 'Paste',
     startIcon: ContentPaste,
+    'aria-label': 'Paste',
+    'data-testid': 'paste-menu-item',
   },
   {
     label: 'Colored via props',
