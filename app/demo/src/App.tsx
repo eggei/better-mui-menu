@@ -26,10 +26,6 @@ const theme = createTheme();
 
 const menuItems: MenuItem[] = [
   {
-    type: "header",
-    label: "Clipboard",
-  },
-  {
     label: "Copy",
     startIcon: ContentCopy,
   },
@@ -44,6 +40,9 @@ const menuItems: MenuItem[] = [
     sx: { color: "error.main" },
     "aria-label": "Delete",
     startIcon: DeleteOutlined,
+  },
+  {
+    type: "divider",
   },
   {
     label: (
@@ -75,11 +74,8 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    type: "divider",
-  },
-  {
     type: "header",
-    label: "Advanced",
+    label: "Category Header Support",
   },
   {
     label: "Using custom icons and styles",
@@ -100,6 +96,23 @@ const menuItems: MenuItem[] = [
         label: "Azure Clipboard",
         startIcon: CloudOutlined,
         items: [
+          {
+            type: "header",
+            label: (
+              <Typography
+                variant="overline"
+                sx={{
+                  color: blue[700],
+                  fontWeight: 700,
+                  letterSpacing: 1.2,
+                  textTransform: "uppercase",
+                  px: 0.5,
+                }}
+              >
+                Category Header (JSX)
+              </Typography>
+            )
+          },
           {
             label: "Google Cloud",
             startIcon: Google,

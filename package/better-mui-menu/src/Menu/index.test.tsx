@@ -116,6 +116,15 @@ describe('Menu', () => {
     const items: MenuItem[] = [
       { type: 'header', label: 'Actions' },
       { id: 'copy', label: 'Copy', startIcon: ContentCopy },
+      {
+        id: 'more',
+        label: 'More',
+        startIcon: Cloud,
+        items: [
+          { type: 'header', label: 'Nested Actions' },
+          { id: 'nested-copy', label: 'Nested Copy', startIcon: ContentCopy },
+        ],
+      },
       { type: 'header', label: 'More Actions' },
       { id: 'paste', label: 'Paste', startIcon: ContentPaste },
     ];
@@ -128,6 +137,67 @@ describe('Menu', () => {
     expect(screen.getByText('Actions')).toBeInTheDocument();
     expect(screen.getByText('More Actions')).toBeInTheDocument();
     expect(screen.getByRole('menuitem', { name: 'Paste' })).toBeInTheDocument();
+
+    const nestedTrigger = screen.getByRole('menuitem', { name: 'More' });
+    await user.hover(nestedTrigger);
+
+    expect(await screen.findByText('Nested Actions')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: 'Nested Copy' })).toBeInTheDocument();
+  });
+
+  it('renders header entries when label is JSX', async () => {
+    const user = userEvent.setup();
+    const items: MenuItem[] = [
+      {
+        type: 'header',
+        label: (
+          <span data-testid='styled-header-label' style={{ color: 'rgb(25, 118, 210)', fontWeight: 700 }}>
+            Styled Actions
+          </span>
+        ),
+      },
+      { id: 'copy', label: 'Copy', startIcon: ContentCopy },
+    ];
+
+    render(<MenuWithTrigger items={items} />);
+    const toggleButton = screen.getByRole('button', { name: /menu actions/i });
+    await user.click(toggleButton);
+
+    const headerLabel = await screen.findByTestId('styled-header-label');
+    expect(headerLabel).toBeInTheDocument();
+    expect(headerLabel).toHaveStyle({ color: 'rgb(25, 118, 210)', fontWeight: '700' });
+    expect(screen.getByRole('menuitem', { name: 'Copy' })).toBeInTheDocument();
+  });
+
+  it('skips header entries during root keyboard navigation when the menu starts with a header', async () => {
+    const user = userEvent.setup();
+    const items: MenuItem[] = [
+      { type: 'header', label: 'Actions' },
+      { id: 'copy', label: 'Copy', startIcon: ContentCopy },
+      { type: 'header', label: 'More Actions' },
+      { id: 'paste', label: 'Paste', startIcon: ContentPaste },
+    ];
+
+    render(<MenuWithTrigger items={items} />);
+    const toggleButton = screen.getByRole('button', { name: /menu actions/i });
+    await user.click(toggleButton);
+
+    const copyItem = await screen.findByRole('menuitem', { name: 'Copy' });
+    const pasteItem = await screen.findByRole('menuitem', { name: 'Paste' });
+
+    await waitFor(() => {
+      expect(copyItem).toHaveFocus();
+    });
+
+    await user.keyboard('{ArrowDown}');
+    await waitFor(() => {
+      expect(pasteItem).toHaveFocus();
+    });
+
+    await user.keyboard('{ArrowUp}');
+    await waitFor(() => {
+      expect(copyItem).toHaveFocus();
+    });
   });
 
   it('accepts JSX icon elements with custom props in root and nested items', async () => {
