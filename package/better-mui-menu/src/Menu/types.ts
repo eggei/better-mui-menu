@@ -4,21 +4,28 @@ import type { SvgIconComponent } from '@mui/icons-material';
 
 export type MenuIcon = SvgIconComponent | ReactElement;
 
-export type MenuItemBase =
-  | { type: 'divider' }
-  | {
-      type?: 'item';
-      id?: string;
-      label: ReactNode;
-      startIcon?: MenuIcon;
-      endIcon?: MenuIcon;
-      items?: MenuItem[];
-    };
-
 type DataAttributes = {
   // TS accepts data-* attributes in JSX, but object literals (our data-driven MenuItem[] config)
   // require explicit keys. This mapped type enables data-* props like data-testid on menu items.
   [K in `data-${string}`]?: string | number | boolean | undefined;
 };
 
-export type MenuItem = MenuItemBase & Omit<MuiMenuItemProps, 'children'> & DataAttributes;
+type MenuDividerItem = {
+  type: 'divider';
+} & DataAttributes;
+
+type MenuHeaderItem = {
+  type: 'header';
+  label: ReactNode;
+} & DataAttributes;
+
+type MenuActionItem = {
+  type?: 'item';
+  id?: string;
+  label: ReactNode;
+  startIcon?: MenuIcon;
+  endIcon?: MenuIcon;
+  items?: MenuItem[];
+} & Omit<MuiMenuItemProps, 'children' | 'type'> & DataAttributes;
+
+export type MenuItem = MenuDividerItem | MenuHeaderItem | MenuActionItem;

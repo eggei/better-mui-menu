@@ -2,7 +2,7 @@ import type { FC, ReactNode, MouseEvent, KeyboardEvent } from 'react';
 import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useRef, useState } from 'react';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import type { MenuItemProps, MenuListProps, MenuProps, PaperProps } from '@mui/material';
-import { Divider, Fade, MenuItem as MuiMenuItem, MenuList, Paper, Popper } from '@mui/material';
+import { Divider, Fade, ListSubheader, MenuItem as MuiMenuItem, MenuList, Paper, Popper } from '@mui/material';
 import type { MenuIcon, MenuItem } from './types';
 import { MenuEntry } from './MenuEntry';
 import { CLOSE_DELAY, transitionConfig } from './common';
@@ -108,8 +108,11 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
 
     return items.map((item, index) => {
       if (item.type === 'divider') {
-
         return <Divider key={`divider-${index}`} />;
+      }
+
+      if (item.type === 'header') {
+        return <ListSubheader key={`header-${index}`}>{item.label}</ListSubheader>;
       }
 
       const {

@@ -86,6 +86,20 @@ describe('NestedMenuItem', () => {
     expect(screen.getByRole('menuitem', { name: 'Leaf item' })).toBeInTheDocument();
   });
 
+  it('renders header entries for data-driven submenu items', async () => {
+    renderNestedMenuItem({
+      label: 'With Header',
+      items: [
+        { type: 'header', label: 'Section Title' },
+        { id: 'leaf-item', label: 'Leaf item' },
+      ],
+    });
+
+    await screen.findByRole('menu', { name: 'With Header' });
+    expect(screen.getByText('Section Title')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: 'Leaf item' })).toBeInTheDocument();
+  });
+
   it('closes submenu and refocuses trigger on ArrowLeft from Popper', async () => {
     const { trigger, id } = renderNestedMenuItem({
       id: 'arrow-left-parent',

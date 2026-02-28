@@ -1,5 +1,5 @@
 import type { MenuProps } from '@mui/material';
-import { Divider, Menu as MuiMenu } from '@mui/material';
+import { Divider, ListSubheader, Menu as MuiMenu } from '@mui/material';
 import React, { useId } from 'react';
 import { NestedMenuItem } from './NestedMenuItem';
 import { MenuEntry } from './MenuEntry';
@@ -19,6 +19,10 @@ export function Menu({ items, elevation = DEFAULT_ELEVATION, ...rest }: Props) {
   const renderedMenuEntries = items.map((item, index) => {
     if (item.type === 'divider') {
       return <Divider key={`divider-${index}`} />;
+    }
+
+    if (item.type === 'header') {
+      return <ListSubheader key={`header-${index}`}>{item.label}</ListSubheader>;
     }
 
     const {

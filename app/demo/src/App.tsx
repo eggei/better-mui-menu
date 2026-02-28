@@ -42,6 +42,9 @@ const menuItems: MenuItem[] = [
     startIcon: DeleteOutlined,
   },
   {
+    type: "divider",
+  },
+  {
     label: (
       <Stack width="fit-content">
         Web Clipboard
@@ -71,7 +74,8 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    type: "divider",
+    type: "header",
+    label: "Category Header Support",
   },
   {
     label: "Using custom icons and styles",
@@ -92,6 +96,23 @@ const menuItems: MenuItem[] = [
         label: "Azure Clipboard",
         startIcon: CloudOutlined,
         items: [
+          {
+            type: "header",
+            label: (
+              <Typography
+                variant="overline"
+                sx={{
+                  color: blue[700],
+                  fontWeight: 700,
+                  letterSpacing: 1.2,
+                  textTransform: "uppercase",
+                  px: 0.5,
+                }}
+              >
+                Category Header (JSX)
+              </Typography>
+            )
+          },
           {
             label: "Google Cloud",
             startIcon: Google,
@@ -122,6 +143,7 @@ const menuItems: MenuItem[] = [
 ];
 
 const simpleUsageSnippet = String.raw`const items = [
+  { type: 'header', label: 'Actions' },
   { label: 'Cut', onClick: () => console.log('Cut') },
   { label: 'Delete', onClick: () => console.log('Delete') },
   { type: 'divider' },
@@ -215,8 +237,8 @@ function App() {
             </Box>
           </Stack>
 
-          <Typography variant="body2" gutterBottom alignSelf='flex-end'>
-            View demo source for items data structure{' '}
+          <Typography variant="body2" gutterBottom alignSelf="flex-end">
+            View demo source for items data structure{" "}
             <Link
               href="https://github.com/eggei/better-mui-menu/blob/main/app/demo/src/App.tsx"
               target="_blank"
@@ -248,8 +270,8 @@ function App() {
             {simpleUsageSnippet}
           </Box>
         </Box>
-      </Stack >
-    </ThemeProvider >
+      </Stack>
+    </ThemeProvider>
   );
 }
 
