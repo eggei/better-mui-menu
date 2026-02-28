@@ -6,6 +6,7 @@ export type MenuIcon = SvgIconComponent | ReactElement;
 
 export type MenuItemBase =
   | { type: 'divider' }
+  | { type: 'header'; label: ReactNode }
   | {
       type?: 'item';
       id?: string;

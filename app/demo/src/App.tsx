@@ -26,6 +26,10 @@ const theme = createTheme();
 
 const menuItems: MenuItem[] = [
   {
+    type: "header",
+    label: "Clipboard",
+  },
+  {
     label: "Copy",
     startIcon: ContentCopy,
   },
@@ -72,6 +76,10 @@ const menuItems: MenuItem[] = [
   },
   {
     type: "divider",
+  },
+  {
+    type: "header",
+    label: "Advanced",
   },
   {
     label: "Using custom icons and styles",
@@ -122,6 +130,7 @@ const menuItems: MenuItem[] = [
 ];
 
 const simpleUsageSnippet = String.raw`const items = [
+  { type: 'header', label: 'Actions' },
   { label: 'Cut', onClick: () => console.log('Cut') },
   { label: 'Delete', onClick: () => console.log('Delete') },
   { type: 'divider' },
@@ -215,8 +224,8 @@ function App() {
             </Box>
           </Stack>
 
-          <Typography variant="body2" gutterBottom alignSelf='flex-end'>
-            View demo source for items data structure{' '}
+          <Typography variant="body2" gutterBottom alignSelf="flex-end">
+            View demo source for items data structure{" "}
             <Link
               href="https://github.com/eggei/better-mui-menu/blob/main/app/demo/src/App.tsx"
               target="_blank"
@@ -248,8 +257,8 @@ function App() {
             {simpleUsageSnippet}
           </Box>
         </Box>
-      </Stack >
-    </ThemeProvider >
+      </Stack>
+    </ThemeProvider>
   );
 }
 

@@ -111,6 +111,25 @@ describe('Menu', () => {
     expect(screen.getByRole('menuitem', { name: 'Paste' })).toBeInTheDocument();
   });
 
+  it('renders root-level header entries from data-driven items', async () => {
+    const user = userEvent.setup();
+    const items: MenuItem[] = [
+      { type: 'header', label: 'Actions' },
+      { id: 'copy', label: 'Copy', startIcon: ContentCopy },
+      { type: 'header', label: 'More Actions' },
+      { id: 'paste', label: 'Paste', startIcon: ContentPaste },
+    ];
+
+    render(<MenuWithTrigger items={items} />);
+    const toggleButton = screen.getByRole('button', { name: /menu actions/i });
+    await user.click(toggleButton);
+
+    await screen.findByRole('menuitem', { name: 'Copy' });
+    expect(screen.getByText('Actions')).toBeInTheDocument();
+    expect(screen.getByText('More Actions')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: 'Paste' })).toBeInTheDocument();
+  });
+
   it('accepts JSX icon elements with custom props in root and nested items', async () => {
     const user = userEvent.setup();
     const items: MenuItem[] = [
