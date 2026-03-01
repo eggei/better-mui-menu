@@ -80,14 +80,17 @@ export function FileMenu() {
 }
 ```
 
-## Items shape
+## MenuItem Reference
 
-`MenuItem` extends `@mui/material/MenuItemProps` (excluding `children`) so you can still pass `dense`, `disabled`, `aria-selected`, etc.
-The `better-mui-menu` adds:
+`MenuItem` extends `@mui/material/MenuItemProps` (excluding `children`) so you can still pass `disabled`, `sx`, `aria-*`, `data-*`, etc.
 
-- `type?: 'item' | 'divider'` – render a `Divider` when `'divider'` is supplied.
-- `id?: string` – optional stable ID for ARIA attributes; one is generated automatically otherwise.
-- `label: ReactNode` – the label shown in the menu row.
-- `startIcon` / `endIcon` – pass either a `SvgIconComponent` (for example `Save`) or a JSX element (for example `<Save fontSize='large' sx={{ ml: 0.5 }} />`).
-- `items?: MenuItem[]` – nested entries that render as submenus.
-- `onClick?: MenuItemProps['onClick']` – callback function when the menu item is clicked.
+| Field | Applies to | Type / values | Required | Default | Notes |
+| --- | --- | --- | --- | --- | --- |
+| `type` | all entries | `'item' \| 'divider' \| 'header'` | no | `'item'` | Use `'divider'` for separators, `'header'` for section labels. |
+| `id` | `'item'` | string | no | auto-generated | Used for stable ARIA/menu item IDs. |
+| `label` | `'item'`, `'header'` | text or JSX | yes (`'item'`, `'header'`) | none | Not used for `'divider'`. |
+| `startIcon` | `'item'` | MUI Icon or JSX | no | none | Example: `Save` or `<Save fontSize='small' />`. |
+| `endIcon` | `'item'` | MUI Icon or JSX | no | none | For submenu triggers, a right-arrow icon is shown when omitted. |
+| `items` | `'item'` | `MenuItem[]` | no | none | If present and non-empty, renders a nested submenu. |
+| `onClick` | `'item'` | function | no | none | Runs on leaf item click; menu stack closes afterward. |
+| `...MenuItemProps` | `'item'` | MUI `MenuItem` props (except `children`, `type`) | no | MUI defaults | Example: `disabled`, `dense`, `selected`, `data-*`. |
