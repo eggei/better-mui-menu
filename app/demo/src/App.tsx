@@ -137,6 +137,24 @@ const menuItems: MenuItem[] = [
     label: "Category Header Support",
   },
   {
+    label: "Disabled submenu (keyboard edge case)",
+    startIcon: DeleteOutlined,
+    items: [
+      {
+        label: "Disabled action 1",
+        disabled: true,
+      },
+      {
+        label: "Disabled action 2",
+        disabled: true,
+      },
+      {
+        label: "Disabled action 3",
+        disabled: true,
+      },
+    ],
+  },
+  {
     label: "Using custom icons and styles",
     startIcon: (
       <AccessibilityNewRounded
@@ -251,6 +269,24 @@ const macOSMenuItems: MenuItem[] = [
   {
     label: "Start Dictation...",
     startIcon: AccessibilityNewRounded,
+  },
+  {
+    label: "Services (all unavailable)",
+    startIcon: CloudOutlined,
+    items: [
+      {
+        label: "Translate Selection",
+        disabled: true,
+      },
+      {
+        label: "Summarize Selection",
+        disabled: true,
+      },
+      {
+        label: "Append to Notes",
+        disabled: true,
+      },
+    ],
   },
   {
     label: "Emoji & Symbols",

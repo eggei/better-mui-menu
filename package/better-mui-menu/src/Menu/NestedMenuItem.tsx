@@ -201,8 +201,19 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
           if (e.key === 'ArrowLeft') {
             handleClose();
           }
-          if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') {
+          if (e.key === 'ArrowRight' || e.key === 'Enter') {
             handleOpen(e);
+          }
+          // CRITICAL FEATURE: When a submenu opens but has no focusable item (for example, all child menu entries are disabled),
+          // focus remains on this trigger instead of moving into the submenu list.
+          // In that state, pressing ArrowUp/ArrowDown should behave as "continue navigating the parent menu", which means
+          // this submenu must close first; otherwise it stays visually open and can overlap with the next submenu.
+          // We intentionally detect this by focus behavior (`document.activeElement === menuItemRef.current`) rather than by
+          // inspecting submenu item data (e.g. checking whether every item is disabled), because focus-based detection is
+          // more robust: it also covers any case where focus did not enter the submenu for other reasons.
+          // `open` is included so this runs only when there is an active submenu to close.
+          if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && open && document.activeElement === menuItemRef.current) {
+            handleClose();
           }
         }}
         aria-haspopup='menu'
