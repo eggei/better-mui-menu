@@ -202,7 +202,7 @@ const menuItems: MenuItem[] = [
 ];
 const macOSMenuItems: MenuItem[] = [
   {
-    label: <Typography component="span">Undo Rename</Typography>,
+    label: "Undo Rename",
     startIcon: ArrowForward,
     endIcon: (
       <Typography component="span" className="macos-shortcut">
@@ -211,7 +211,7 @@ const macOSMenuItems: MenuItem[] = [
     ),
   },
   {
-    label: <Typography component="span">Redo</Typography>,
+    label: "Redo",
     startIcon: ArrowForward,
     disabled: true,
     endIcon: (
@@ -221,39 +221,39 @@ const macOSMenuItems: MenuItem[] = [
     ),
   },
   {
-    label: <Typography component="span">Show Clipboard</Typography>,
+    label: "Show Clipboard",
     startIcon: Storage,
   },
   {
-    label: <Typography component="span">Writing Tools</Typography>,
+    label: "Writing Tools",
     startIcon: CloudOutlined,
     items: [
       {
-        label: <Typography component="span">Rewrite</Typography>,
+        label: "Rewrite",
         startIcon: Google,
         items: [
           {
-            label: <Typography component="span">Professional</Typography>,
+            label: "Professional",
             startIcon: Storage,
           },
           {
-            label: <Typography component="span">Friendly</Typography>,
+            label: "Friendly",
             startIcon: Storage,
           },
         ],
       },
       {
-        label: <Typography component="span">Proofread</Typography>,
+        label: "Proofread",
         startIcon: AccessibilityNewRounded,
       },
     ],
   },
   {
-    label: <Typography component="span">Start Dictation...</Typography>,
+    label: "Start Dictation...",
     startIcon: AccessibilityNewRounded,
   },
   {
-    label: <Typography component="span">Emoji & Symbols</Typography>,
+    label: "Emoji & Symbols",
     startIcon: AccessibilityNewRounded,
     endIcon: (
       <Typography component="span" className="macos-shortcut">
