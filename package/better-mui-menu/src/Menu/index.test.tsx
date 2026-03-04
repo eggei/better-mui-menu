@@ -10,6 +10,7 @@ import Cloud from '@mui/icons-material/Cloud';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ContentCut from '@mui/icons-material/ContentCut';
 import ContentPaste from '@mui/icons-material/ContentPaste';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import type { MenuItem } from './types';
 import { Menu } from './index';
 
@@ -379,6 +380,47 @@ describe('Menu', () => {
       expect(screen.queryByRole('menu', { name: 'Web Clipboard' })).not.toBeInTheDocument();
     });
     expect(nestedTrigger).not.toHaveAttribute('aria-expanded');
+  });
+
+  it('applies MuiMenu styleOverrides to nested submenu paper and list slots', async () => {
+    const user = userEvent.setup();
+    const { items } = buildMenuItems();
+    const menuTheme = createTheme({
+      components: {
+        MuiMenu: {
+          styleOverrides: {
+            paper: {
+              border: '3px solid rgb(255, 0, 0)',
+            },
+            list: {
+              paddingTop: '18px',
+              paddingBottom: '18px',
+            },
+          },
+        },
+      },
+    });
+
+    render(
+      <ThemeProvider theme={menuTheme}>
+        <MenuWithTrigger items={items} />
+      </ThemeProvider>
+    );
+
+    const toggleButton = screen.getByRole('button', { name: /menu actions/i });
+    await user.click(toggleButton);
+
+    const nestedTrigger = await screen.findByRole('menuitem', { name: 'Web Clipboard' });
+    await user.hover(nestedTrigger);
+
+    const nestedMenu = await screen.findByRole('menu', { name: 'Web Clipboard' });
+    const nestedPaper = nestedMenu.closest('.MuiPaper-root');
+
+    expect(nestedPaper).not.toBeNull();
+    expect(nestedPaper).toHaveClass('MuiMenu-paper');
+    expect(nestedMenu).toHaveClass('MuiMenu-list');
+    expect(nestedPaper).toHaveStyle({ borderTopWidth: '3px', borderTopColor: 'rgb(255, 0, 0)' });
+    expect(nestedMenu).toHaveStyle({ paddingTop: '18px', paddingBottom: '18px' });
   });
 
   describe('Accessibility features', () => {

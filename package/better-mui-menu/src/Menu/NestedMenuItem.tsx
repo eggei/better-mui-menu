@@ -3,6 +3,8 @@ import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, 
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import type { MenuItemProps, MenuListProps, MenuProps, PaperProps } from '@mui/material';
 import { Divider, Fade, ListSubheader, MenuItem as MuiMenuItem, MenuList, Paper, Popper } from '@mui/material';
+import { menuClasses } from '@mui/material/Menu';
+import { styled } from '@mui/material/styles';
 import type { MenuIcon, MenuItem } from './types';
 import { MenuEntry } from './MenuEntry';
 import { CLOSE_DELAY, transitionConfig } from './common';
@@ -19,6 +21,16 @@ type NestedMenuItemProps = MenuItemProps & {
 };
 
 const isNodeInstance = (target: EventTarget | null): target is Node => target instanceof Node;
+const SubMenuPaper = styled(Paper, {
+  name: 'MuiMenu',
+  slot: 'Paper',
+  overridesResolver: (_, styles) => styles.paper,
+})({});
+const SubMenuList = styled(MenuList, {
+  name: 'MuiMenu',
+  slot: 'List',
+  overridesResolver: (_, styles) => styles.list,
+})({});
 
 export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
   const {
@@ -165,6 +177,10 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
   };
 
   const renderedSubMenuItems = items && items.length > 0 ? renderItemsFromData() : renderChildren;
+  const subMenuPaperProps = (menuProps?.slotProps?.paper as PaperProps) || {};
+  const { className: subMenuPaperClassName, ...subMenuPaperRestProps } = subMenuPaperProps;
+  const subMenuListProps = (menuProps?.slotProps?.list as MenuListProps) || {};
+  const { className: subMenuListClassName, ...subMenuListRestProps } = subMenuListProps;
 
   return (
     <>
@@ -235,12 +251,18 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={transitionConfig.timeout}>
-            <Paper elevation={menuProps.elevation} sx={{ overflow: 'auto' }} {...(menuProps?.slotProps?.paper as PaperProps) || {}}>
-              <MenuList
+            <SubMenuPaper
+              elevation={menuProps.elevation}
+              className={[menuClasses.paper, subMenuPaperClassName].filter(Boolean).join(' ')}
+              sx={{ overflow: 'auto' }}
+              {...subMenuPaperRestProps}
+            >
+              <SubMenuList
                 id={subMenuId}
                 aria-labelledby={menuItemId}
                 role='menu'
-                {...(menuProps?.slotProps?.list as MenuListProps) || {}}
+                className={[menuClasses.list, subMenuListClassName].filter(Boolean).join(' ')}
+                {...subMenuListRestProps}
                 // What's under is not allowed to be overridden for now
                 autoFocusItem
                 onKeyDown={e => {
@@ -284,8 +306,8 @@ export const NestedMenuItem: FC<NestedMenuItemProps> = props => {
                 }}
               >
                 {renderedSubMenuItems}
-              </MenuList>
-            </Paper>
+              </SubMenuList>
+            </SubMenuPaper>
           </Fade>
         )}
       </Popper>

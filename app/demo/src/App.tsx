@@ -23,6 +23,30 @@ import {
 import { blue, blueGrey } from "@mui/material/colors";
 
 const theme = createTheme();
+const separatedMenuTheme = createTheme({
+  components: {
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          border: `2px solid ${blue[500]}`,
+          borderRadius: 2,
+          backgroundImage: `linear-gradient(180deg, ${blue[50]} 0%, #ffffff 70%)`,
+          boxShadow: "0 16px 36px rgba(25, 118, 210, 0.25)",
+        },
+        list: {
+          padding: 1,
+          "& .MuiMenuItem-root": {
+            borderRadius: 1.5,
+            marginBottom: 0.5,
+          },
+          "& .MuiMenuItem-root:last-of-type": {
+            marginBottom: 0,
+          },
+        },
+      },
+    },
+  },
+});
 
 const menuItems: MenuItem[] = [
   {
@@ -158,19 +182,29 @@ const simpleUsageSnippet = String.raw`const items = [
 />`;
 
 function App() {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const [defaultMenuAnchorEl, setDefaultMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [themedMenuAnchorEl, setThemedMenuAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleDefaultMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setDefaultMenuAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleDefaultMenuClose = () => {
+    setDefaultMenuAnchorEl(null);
+  };
+
+  const handleThemedMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setThemedMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleThemedMenuClose = () => {
+    setThemedMenuAnchorEl(null);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Stack p={4} maxWidth={640} gap={2} margin="0 auto">
+      <Stack p={4} maxWidth={920} gap={2} margin="0 auto">
         <Box>
           <Typography variant="h5" gutterBottom>
             better-mui-menu
@@ -210,31 +244,77 @@ function App() {
           <Typography variant="h6" gutterBottom>
             Try it out
           </Typography>
-          <Stack sx={{ borderRadius: 1, p: 2, backgroundColor: blueGrey[100] }}>
-            <Box
-              sx={{ width: "100%", display: "flex", justifyContent: "center" }}
-            >
-              <Button
-                id="icon-menu-button"
-                aria-controls={anchorEl ? "icon-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={anchorEl ? "true" : undefined}
-                onClick={handleClick}
-                variant="contained"
-                startIcon={<AccessibilityNewRounded />}
-                color="inherit"
-              >
-                Menu
-              </Button>
+          <Stack sx={{ borderRadius: 1, p: 2, backgroundColor: blueGrey[100] }} gap={2}>
+            <Stack direction={{ xs: "column", md: "row" }} gap={2}>
+              <Box sx={{ flex: 1, borderRadius: 1, p: 2, backgroundColor: "common.white" }}>
+                <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                  Default Theme
+                </Typography>
+                <Box
+                  sx={{ width: "100%", display: "flex", justifyContent: "center" }}
+                >
+                  <Button
+                    id="default-menu-button"
+                    aria-controls={defaultMenuAnchorEl ? "default-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={defaultMenuAnchorEl ? "true" : undefined}
+                    onClick={handleDefaultMenuOpen}
+                    variant="contained"
+                    startIcon={<AccessibilityNewRounded />}
+                    color="inherit"
+                  >
+                    Menu
+                  </Button>
 
-              <Menu
-                items={menuItems}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                open={Boolean(anchorEl)}
-                sx={{ mt: 1 }}
-              />
-            </Box>
+                  <Menu
+                    items={menuItems}
+                    anchorEl={defaultMenuAnchorEl}
+                    onClose={handleDefaultMenuClose}
+                    open={Boolean(defaultMenuAnchorEl)}
+                    sx={{ mt: 1 }}
+                  />
+                </Box>
+              </Box>
+
+              <ThemeProvider theme={separatedMenuTheme}>
+                <Box
+                  sx={{
+                    flex: 1,
+                    borderRadius: 1,
+                    p: 2,
+                    backgroundColor: blue[50],
+                    border: `1px solid ${blue[100]}`,
+                  }}
+                >
+                  <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                    Separate Theme with MuiMenu overrides
+                  </Typography>
+                  <Box
+                    sx={{ width: "100%", display: "flex", justifyContent: "center" }}
+                  >
+                    <Button
+                      id="themed-menu-button"
+                      aria-controls={themedMenuAnchorEl ? "themed-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={themedMenuAnchorEl ? "true" : undefined}
+                      onClick={handleThemedMenuOpen}
+                      variant="contained"
+                      startIcon={<AccessibilityNewRounded />}
+                    >
+                      Styled Menu
+                    </Button>
+
+                    <Menu
+                      items={menuItems}
+                      anchorEl={themedMenuAnchorEl}
+                      onClose={handleThemedMenuClose}
+                      open={Boolean(themedMenuAnchorEl)}
+                      sx={{ mt: 1 }}
+                    />
+                  </Box>
+                </Box>
+              </ThemeProvider>
+            </Stack>
           </Stack>
 
           <Typography variant="body2" gutterBottom alignSelf="flex-end">
