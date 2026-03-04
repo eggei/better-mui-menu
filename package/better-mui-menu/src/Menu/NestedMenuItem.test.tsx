@@ -3,7 +3,7 @@
  */
 /// <reference types="@testing-library/jest-dom" />
 import type { ReactNode } from 'react';
-import { createEvent, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, createEvent, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MenuItem as MuiMenuItem } from '@mui/material';
 import type { MenuProps } from '@mui/material';
 import type { MenuItem } from './types';
@@ -114,6 +114,31 @@ describe('NestedMenuItem', () => {
       expect(screen.queryByRole('menu', { name: 'Arrow Left Parent' })).not.toBeInTheDocument();
     });
     expect(trigger).toHaveFocus();
+  });
+
+  it('closes submenu on vertical navigation when focus stays on the trigger', async () => {
+    const { trigger } = renderNestedMenuItem({
+      id: 'all-disabled-parent',
+      label: 'All Disabled Parent',
+      items: [
+        { id: 'disabled-1', label: 'Disabled 1', disabled: true },
+        { id: 'disabled-2', label: 'Disabled 2', disabled: true },
+      ],
+    });
+
+    act(() => {
+      trigger.focus();
+    });
+    fireEvent.keyDown(trigger, { key: 'ArrowRight' });
+
+    await screen.findByRole('menu', { name: 'All Disabled Parent' });
+    expect(trigger).toHaveFocus();
+
+    fireEvent.keyDown(trigger, { key: 'ArrowDown' });
+
+    await waitFor(() => {
+      expect(screen.queryByRole('menu', { name: 'All Disabled Parent' })).not.toBeInTheDocument();
+    });
   });
 
   it('ignores ArrowLeft when nested handler flag is already set', async () => {
