@@ -23,25 +23,60 @@ import {
 import { blue, blueGrey } from "@mui/material/colors";
 
 const theme = createTheme();
-const separatedMenuTheme = createTheme({
+const macOSMenuTheme = createTheme({
   components: {
     MuiMenu: {
       styleOverrides: {
         paper: {
-          border: `2px solid ${blue[500]}`,
-          borderRadius: 2,
-          backgroundImage: `linear-gradient(180deg, ${blue[50]} 0%, #ffffff 70%)`,
-          boxShadow: "0 16px 36px rgba(25, 118, 210, 0.25)",
+          minWidth: 300,
+          color: "rgba(242, 247, 249, 0.95)",
+          backgroundColor: "rgba(52, 65, 72, 0.72)",
+          backgroundImage: "linear-gradient(180deg, rgba(80, 96, 105, 0.32) 0%, rgba(39, 50, 56, 0.72) 100%)",
+          border: "1px solid rgba(226, 236, 241, 0.25)",
+          borderRadius: 18,
+          boxShadow: "0 24px 48px rgba(7, 18, 25, 0.38)",
+          backdropFilter: "saturate(130%) blur(14px)",
         },
         list: {
-          padding: 1,
-          "& .MuiMenuItem-root": {
-            borderRadius: 1.5,
-            marginBottom: 0.5,
+          padding: 8,
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          minHeight: 38,
+          borderRadius: 11,
+          color: "rgba(238, 245, 249, 0.9)",
+          paddingInline: 12,
+          transition: "background-color 120ms ease, color 120ms ease",
+          "& .macos-shortcut": {
+            marginLeft: "auto",
+            opacity: 0.6,
+            letterSpacing: 0.6,
+            fontSize: "0.95rem",
           },
-          "& .MuiMenuItem-root:last-of-type": {
-            marginBottom: 0,
+          "&:hover, &.Mui-focusVisible": {
+            backgroundColor: "rgba(54, 138, 255, 0.95)",
+            color: "#fff",
+            "& .macos-shortcut": {
+              opacity: 0.95,
+            },
           },
+          "&.Mui-disabled": {
+            color: "rgba(238, 245, 249, 0.38)",
+            "& .macos-shortcut": {
+              opacity: 0.35,
+            },
+          },
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: "rgba(220, 232, 238, 0.24)",
+          margin: "6px 10px",
         },
       },
     },
@@ -165,6 +200,68 @@ const menuItems: MenuItem[] = [
     ],
   },
 ];
+const macOSMenuItems: MenuItem[] = [
+  {
+    label: <Typography component="span">Undo Rename</Typography>,
+    startIcon: ArrowForward,
+    endIcon: (
+      <Typography component="span" className="macos-shortcut">
+        ⌘Z
+      </Typography>
+    ),
+  },
+  {
+    label: <Typography component="span">Redo</Typography>,
+    startIcon: ArrowForward,
+    disabled: true,
+    endIcon: (
+      <Typography component="span" className="macos-shortcut">
+        ⇧⌘Z
+      </Typography>
+    ),
+  },
+  {
+    label: <Typography component="span">Show Clipboard</Typography>,
+    startIcon: Storage,
+  },
+  {
+    label: <Typography component="span">Writing Tools</Typography>,
+    startIcon: CloudOutlined,
+    items: [
+      {
+        label: <Typography component="span">Rewrite</Typography>,
+        startIcon: Google,
+        items: [
+          {
+            label: <Typography component="span">Professional</Typography>,
+            startIcon: Storage,
+          },
+          {
+            label: <Typography component="span">Friendly</Typography>,
+            startIcon: Storage,
+          },
+        ],
+      },
+      {
+        label: <Typography component="span">Proofread</Typography>,
+        startIcon: AccessibilityNewRounded,
+      },
+    ],
+  },
+  {
+    label: <Typography component="span">Start Dictation...</Typography>,
+    startIcon: AccessibilityNewRounded,
+  },
+  {
+    label: <Typography component="span">Emoji & Symbols</Typography>,
+    startIcon: AccessibilityNewRounded,
+    endIcon: (
+      <Typography component="span" className="macos-shortcut">
+        ⌃⌘Space
+      </Typography>
+    ),
+  },
+];
 
 const simpleUsageSnippet = String.raw`const items = [
   { type: 'header', label: 'Actions' },
@@ -183,7 +280,7 @@ const simpleUsageSnippet = String.raw`const items = [
 
 function App() {
   const [defaultMenuAnchorEl, setDefaultMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const [themedMenuAnchorEl, setThemedMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [macMenuAnchorEl, setMacMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleDefaultMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setDefaultMenuAnchorEl(event.currentTarget);
@@ -193,18 +290,18 @@ function App() {
     setDefaultMenuAnchorEl(null);
   };
 
-  const handleThemedMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setThemedMenuAnchorEl(event.currentTarget);
+  const handleMacMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMacMenuAnchorEl(event.currentTarget);
   };
 
-  const handleThemedMenuClose = () => {
-    setThemedMenuAnchorEl(null);
+  const handleMacMenuClose = () => {
+    setMacMenuAnchorEl(null);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Stack p={4} maxWidth={920} gap={2} margin="0 auto">
+      <Stack p={4} maxWidth={1200} gap={2} margin="0 auto">
         <Box>
           <Typography variant="h5" gutterBottom>
             better-mui-menu
@@ -245,7 +342,7 @@ function App() {
             Try it out
           </Typography>
           <Stack sx={{ borderRadius: 1, p: 2, backgroundColor: blueGrey[100] }} gap={2}>
-            <Stack direction={{ xs: "column", md: "row" }} gap={2}>
+            <Stack direction={{ xs: "column", md: "row" }} flexWrap="wrap" gap={2}>
               <Box sx={{ flex: 1, borderRadius: 1, p: 2, backgroundColor: "common.white" }}>
                 <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                   Default Theme
@@ -276,39 +373,41 @@ function App() {
                 </Box>
               </Box>
 
-              <ThemeProvider theme={separatedMenuTheme}>
+              <ThemeProvider theme={macOSMenuTheme}>
                 <Box
                   sx={{
                     flex: 1,
-                    borderRadius: 1,
+                    minWidth: { md: 330 },
+                    borderRadius: 2,
                     p: 2,
-                    backgroundColor: blue[50],
-                    border: `1px solid ${blue[100]}`,
+                    border: "1px solid rgba(194, 214, 228, 0.45)",
+                    backgroundImage:
+                      "linear-gradient(180deg, rgba(195, 212, 226, 0.48) 0%, rgba(114, 141, 165, 0.52) 50%, rgba(73, 102, 124, 0.62) 100%)",
                   }}
                 >
                   <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                    Separate Theme with MuiMenu overrides
+                    Customizability through style overrides - macOS style dropdown menu
                   </Typography>
                   <Box
                     sx={{ width: "100%", display: "flex", justifyContent: "center" }}
                   >
                     <Button
-                      id="themed-menu-button"
-                      aria-controls={themedMenuAnchorEl ? "themed-menu" : undefined}
+                      id="mac-menu-button"
+                      aria-controls={macMenuAnchorEl ? "mac-menu" : undefined}
                       aria-haspopup="true"
-                      aria-expanded={themedMenuAnchorEl ? "true" : undefined}
-                      onClick={handleThemedMenuOpen}
+                      aria-expanded={macMenuAnchorEl ? "true" : undefined}
+                      onClick={handleMacMenuOpen}
                       variant="contained"
-                      startIcon={<AccessibilityNewRounded />}
+                      color="inherit"
                     >
-                      Styled Menu
+                      Edit
                     </Button>
 
                     <Menu
-                      items={menuItems}
-                      anchorEl={themedMenuAnchorEl}
-                      onClose={handleThemedMenuClose}
-                      open={Boolean(themedMenuAnchorEl)}
+                      items={macOSMenuItems}
+                      anchorEl={macMenuAnchorEl}
+                      onClose={handleMacMenuClose}
+                      open={Boolean(macMenuAnchorEl)}
                       sx={{ mt: 1 }}
                     />
                   </Box>
