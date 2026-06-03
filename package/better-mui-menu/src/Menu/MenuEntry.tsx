@@ -15,7 +15,11 @@ const renderMenuIcon = (icon?: MenuIcon) => {
   if (!icon) return null;
   if (isValidElement(icon)) return icon;
   const IconComponent = icon;
-  return <IconComponent />;
+  return (
+    <span style={{ alignSelf: 'flex-start', height: '100%', alignItems: 'center', display: 'flex' }}>
+      <IconComponent />
+    </span>
+  );
 };
 
 export const MenuEntry = forwardRef<HTMLLIElement, MenuEntryProps>(function MenuEntry(
@@ -25,11 +29,7 @@ export const MenuEntry = forwardRef<HTMLLIElement, MenuEntryProps>(function Menu
   return (
     <MuiMenuItem ref={ref} {...muiMenuItemProps} onClick={onClick}>
       <MenuItemContent>
-        {startIcon && (
-          <span aria-hidden="true" style={{ alignSelf: 'flex-start', height: '100%', alignItems: 'center', display: 'flex' }}>
-            {renderMenuIcon(startIcon)}
-          </span>
-        )}
+        {renderMenuIcon(startIcon)}
         <Typography component='span' sx={{ flex: 1, fontFamily: 'inherit' }}>
           {label}
         </Typography>
