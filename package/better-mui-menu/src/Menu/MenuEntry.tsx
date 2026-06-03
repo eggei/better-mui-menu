@@ -11,7 +11,7 @@ type MenuEntryProps = Omit<MenuItemProps, 'children'> & {
   endIcon?: MenuIcon;
 };
 
-const renderMenuIcon = (icon?: MenuIcon, alignSelf: CSSProperties['alignSelf']) => {
+const renderMenuIcon = (icon?: MenuIcon, alignSelf?: CSSProperties['alignSelf']) => {
   if (!icon) return null;
   if (isValidElement(icon)) return icon;
   const IconComponent = icon;
