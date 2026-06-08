@@ -14,5 +14,5 @@
     "test:lib": "npm --workspace package/better-mui-menu run test:coverage",
     "test": "npm run lint && npm run tsc && npm run test:lib"
   },
-  "version": "0.0.2"
+  "version": "0.0.3"
 }
