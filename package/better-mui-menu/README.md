@@ -1,3 +1,5 @@
+# **Notice**: MUI v9 has brought nested menu support to the core `Menu` component. You don't need this package if your are on MUI v9. _Unless_, you need a data-driven solution like this package provides
+
 # better-mui-menu
 
 [![CI](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml/badge.svg)](https://github.com/eggei/better-mui-menu/actions/workflows/ci.yml) [![Security](https://github.com/eggei/better-mui-menu/actions/workflows/security.yml/badge.svg)](https://github.com/eggei/better-mui-menu/actions/workflows/security.yml) [![coverage](https://codecov.io/gh/eggei/better-mui-menu/branch/main/graph/badge.svg)](https://codecov.io/gh/eggei/better-mui-menu) [![npm version](https://img.shields.io/npm/v/better-mui-menu.svg?color=brightgreen)](https://www.npmjs.com/package/better-mui-menu) [![npm downloads](https://img.shields.io/npm/dt/better-mui-menu.svg?color=informational)](https://www.npmjs.com/package/better-mui-menu) [![License: MIT](https://img.shields.io/npm/l/better-mui-menu.svg)](https://opensource.org/licenses/MIT)
